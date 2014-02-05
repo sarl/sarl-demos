@@ -1,0 +1,39 @@
+package io.sarl.demos.factorial
+
+import io.sarl.core.Behaviors
+import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
+
+import io.sarl.core.Initialize
+
+
+event Factorial {
+	var Integer number
+	var Integer value 
+} 
+
+event Calculate { 
+	var Integer number
+} 
+
+agent FactorialAgent {
+	var Integer upto = 5 
+	uses Lifecycle, Behaviors 
+	  
+	on Initialize {
+		this.upto  = new Integer(e.parameters.get(0) as String) 
+		println("Received Calculate for " + this.upto)   
+		wake(new Factorial => [ number = 0 ; value = 1 ])
+	} 
+
+	on Factorial [ e.number < upto ] {
+		wake(new Factorial => [ number = e.number + 1 ; value = e.value * (e.number+1) ])
+	}
+
+	on Factorial [ e.number == upto ] { 
+		println("Fatorial of " + upto + " is " + e.value)
+		
+		killMe
+	}
+}
+

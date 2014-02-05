@@ -1,0 +1,83 @@
+package io.sarl.demos.counter
+
+import java.util.concurrent.atomic.AtomicInteger
+
+import io.sarl.core.Initialize
+import io.sarl.core.Destroy
+import io.sarl.core.Lifecycle
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Schedules
+import io.sarl.core.Behaviors
+
+event MyEvent {
+}
+
+event OtherEvent {
+}
+
+event Die {
+}
+
+agent CounterAgent {
+	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors
+
+	const AtomicInteger count = new AtomicInteger
+
+	on Initialize {
+		println("INITIALIZE: Start") 
+		task("test-presence").every(100) [ 
+			if(defaultSpace.participants.size > 1) {
+				println("Waking") 
+				wake(new MyEvent) 
+				task("test-presence")
+			}
+			else {
+				println("Number of participants in default space : " + defaultSpace.participants.size)
+			}
+		]
+	}
+
+	on MyEvent {
+		println("My Event - count " + count.get) 
+		if(count.get == 3) {
+			emit(new Die) 
+			println("Kill Counter Agent") 
+			killMe
+		} else {
+			println("Scheduling task since count = " + count.get) 
+			in(1000) [ 
+				count.incrementAndGet 
+				wake(new MyEvent) 
+				emit(new OtherEvent) 
+			]
+		}
+	}
+
+}
+
+agent SecondAgent {
+	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors
+	
+	on Initialize {
+		println("Second Agent init")
+
+	}
+
+	on OtherEvent {
+		println("Received Other Event")
+	}
+
+	on Die {
+		println("Received Die Event- killing myself")
+		killMe
+	}
+}
+
+
+
+
+
+
+
+
+
