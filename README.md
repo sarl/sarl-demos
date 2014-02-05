@@ -2,7 +2,7 @@
 SARL Demos
 ==============
 
-This is set the of demos for SARL.
+This is the set of demos for SARL.
 
 SARL is a general-purpose agent-oriented language.
 
