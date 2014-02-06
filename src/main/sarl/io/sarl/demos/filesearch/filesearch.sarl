@@ -1,0 +1,92 @@
+package io.sarl.demos.filesearch
+
+import java.io.File
+import io.sarl.core.Initialize
+import io.sarl.core.Behaviors
+import io.sarl.core.Lifecycle
+import io.sarl.core.ExternalContextAccess
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.InnerContextAccess
+import io.sarl.core.Schedules
+import static java.lang.String.*
+
+/* Search for a given minSize (in kb) */
+event Search {
+	var Integer minSize
+}
+
+/* Notify a file matching the criteria was found */
+event FoundFile {
+	var File file
+}
+
+/* Request the agent to stop processing */
+event Stop{
+	
+}
+
+/*
+ * An Agent that searches for files larger than a given size.
+ * 
+ * To explore sub-directories this agent spawns members (sub-holons) in its innerContext.
+ * 
+ * This agent can be used to search in distant machines by setting the stayAlive and requesting a
+ * with Search event in the default context.
+ * 
+ * @param String path where this agent looks for
+ * @param Integar size the minimum size to match
+ * @param Boolean stayAlive after search
+ */
+agent FileSearchAgent {
+	uses Behaviors, Lifecycle, DefaultContextInteractions, InnerContextAccess,Schedules
+
+	var String myPath
+	var Boolean stayAlive
+
+	on Initialize {
+		myPath = e.parameters.get(0) as String
+		wake(new Search =>[minSize=new Integer(e.parameters.get(1) as String)])
+		stayAlive = new Boolean(e.parameters.get(2) as String)
+	}
+	
+	on Search{
+		const minSize = e.minSize
+		
+		println(format("[ID=%s - parent %s] Searching in %s", ID, defaultContext.ID,myPath))
+		
+		
+		const File dir = new File(myPath)
+		if(!dir.exists){
+			throw new IllegalArgumentException("Path ["+myPath+"] is not a Directory")
+		}
+		
+		for(f : dir.listFiles){
+			if(f.directory){
+				FileSearchAgent.spawnInContext(innerContext,#[f.absolutePath,minSize.toString,false.toString])
+			}else{
+				if(f.length >= (minSize * 1024)){
+					emit(new FoundFile =>[file = f])
+				}
+			}
+		}
+		
+		if(!stayAlive){
+			//wait for members searching in sub-directories
+			every(500)[if(!hasMembers){wake(new Stop)}]
+		}
+	}
+	
+	on FoundFile{
+		println(format("[receiver = %s, source=%s] Matching File Found [path=%s, size=%s kb]",ID, e.source.UUID,e.file.absolutePath, e.file.length / 1024))
+	}
+	
+	on Stop{
+		println(format("[ID=%s] Request to stop received", ID, e.source.UUID))
+		killMe
+	}
+	
+	def hasMembers : boolean {
+		return innerContext.defaultSpace.participants.size > 1
+	}
+	
+}
