@@ -21,8 +21,8 @@ event Die {
 agent CounterAgent {
 	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors
 
-	const AtomicInteger count = new AtomicInteger
-
+	val AtomicInteger count = new AtomicInteger
+ 
 	on Initialize {
 		println("INITIALIZE: Start") 
 		task("test-presence").every(100) [ 

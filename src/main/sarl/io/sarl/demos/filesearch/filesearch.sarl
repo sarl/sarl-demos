@@ -50,12 +50,12 @@ agent FileSearchAgent {
 	}
 	
 	on Search{
-		const minSize = e.minSize
+		val minSize = e.minSize
 		
 		println(format("[ID=%s - parent %s] Searching in %s", ID, defaultContext.ID,myPath))
 		
 		
-		const File dir = new File(myPath)
+		val File dir = new File(myPath)
 		if(!dir.exists){
 			throw new IllegalArgumentException("Path ["+myPath+"] is not a Directory")
 		}

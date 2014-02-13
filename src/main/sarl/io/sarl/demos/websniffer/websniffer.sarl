@@ -17,7 +17,7 @@ event Count{
 agent Ticker{
 	uses DefaultContextInteractions, Schedules,Lifecycle
 	
-	const AtomicInteger secs = new AtomicInteger
+	val AtomicInteger secs = new AtomicInteger
 	
 	on Initialize {
 		every(100)[doCount]
@@ -28,8 +28,8 @@ agent Ticker{
 		emit(new Count => [count = secs.get])
 	}
 	
-	def seconds(long val) : long{
-		val*1000
+	def seconds(long milis) : long{
+		milis*1000
 	}
 	
 }
