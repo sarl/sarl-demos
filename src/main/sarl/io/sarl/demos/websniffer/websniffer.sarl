@@ -7,7 +7,7 @@ import io.sarl.core.Lifecycle
 import java.util.concurrent.atomic.AtomicInteger
 
 event Count{
-	var Integer count
+	var count : Integer
 }
 
 /**
@@ -17,7 +17,7 @@ event Count{
 agent Ticker{
 	uses DefaultContextInteractions, Schedules,Lifecycle
 	
-	val AtomicInteger secs = new AtomicInteger
+	val secs : AtomicInteger = new AtomicInteger
 	
 	on Initialize {
 		every(100)[doCount]
@@ -28,7 +28,7 @@ agent Ticker{
 		emit(new Count => [count = secs.get])
 	}
 	
-	def seconds(long milis) : long{
+	def seconds(milis : long) : long{
 		milis*1000
 	}
 	

@@ -10,8 +10,8 @@ event Die {}
 
 agent ScheduleAgent {
 	uses Schedules, Lifecycle, Behaviors 
-	var Integer secs = 0
-	var boolean hideText = false
+	var secs : Integer = 0
+	var hideText = false
 	
 	on Initialize{
 //		Schedules -> new TimerScheduler(this)
@@ -41,7 +41,7 @@ agent ScheduleAgent {
 
 	}
 	
-	def seconds(long value) : Long{
+	def seconds(value : long) : Long{
 		value * 1000 
 	}
 	def updateCounter{

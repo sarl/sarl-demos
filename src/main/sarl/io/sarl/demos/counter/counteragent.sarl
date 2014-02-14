@@ -21,7 +21,7 @@ event Die {
 agent CounterAgent {
 	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors
 
-	val AtomicInteger count = new AtomicInteger
+	val count = new AtomicInteger
  
 	on Initialize {
 		println("INITIALIZE: Start") 

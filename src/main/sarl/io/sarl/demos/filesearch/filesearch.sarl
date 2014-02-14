@@ -12,12 +12,12 @@ import static java.lang.String.*
 
 /* Search for a given minSize (in kb) */
 event Search {
-	var Integer minSize
+	var minSize : Integer
 }
 
 /* Notify a file matching the criteria was found */
 event FoundFile {
-	var File file
+	var file : File
 }
 
 /* Request the agent to stop processing */
@@ -40,8 +40,8 @@ event Stop{
 agent FileSearchAgent {
 	uses Behaviors, Lifecycle, DefaultContextInteractions, InnerContextAccess,Schedules
 
-	var String myPath
-	var Boolean stayAlive
+	var myPath : String
+	var stayAlive : Boolean
 
 	on Initialize {
 		myPath = e.parameters.get(0) as String
@@ -55,7 +55,7 @@ agent FileSearchAgent {
 		println(format("[ID=%s - parent %s] Searching in %s", ID, defaultContext.ID,myPath))
 		
 		
-		val File dir = new File(myPath)
+		val dir = new File(myPath)
 		if(!dir.exists){
 			throw new IllegalArgumentException("Path ["+myPath+"] is not a Directory")
 		}

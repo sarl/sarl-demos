@@ -8,16 +8,16 @@ import io.sarl.core.Initialize
 
 
 event Factorial {
-	var Integer number
-	var Integer value 
+	var number : Integer
+	var value : Integer
 } 
 
 event Calculate { 
-	var Integer number
+	var number : Integer 
 } 
 
 agent FactorialAgent {
-	var Integer upto = 5 
+	var upto : Integer = 5 
 	uses Lifecycle, Behaviors 
 	  
 	on Initialize {
