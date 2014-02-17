@@ -21,17 +21,17 @@ agent FactorialAgent {
 	uses Lifecycle, Behaviors 
 	  
 	on Initialize {
-		this.upto  = new Integer(e.parameters.get(0) as String) 
+		this.upto  = new Integer(occurrence.parameters.get(0) as String) 
 		println("Received Calculate for " + this.upto)   
 		wake(new Factorial => [ number = 0 ; value = 1 ])
 	} 
 
-	on Factorial [ e.number < upto ] {
-		wake(new Factorial => [ number = e.number + 1 ; value = e.value * (e.number+1) ])
+	on Factorial [ occurrence.number < upto ] {
+		wake(new Factorial => [ number = occurrence.number + 1 ; value = occurrence.value * (occurrence.number+1) ])
 	}
 
-	on Factorial [ e.number == upto ] { 
-		println("Fatorial of " + upto + " is " + e.value)
+	on Factorial [ occurrence.number == upto ] {  
+		println("Fatorial of " + upto + " is " + occurrence.value)
 		
 		killMe
 	}

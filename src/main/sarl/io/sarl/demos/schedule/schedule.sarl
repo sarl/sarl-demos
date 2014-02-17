@@ -14,8 +14,7 @@ agent ScheduleAgent {
 	var hideText = false
 	
 	on Initialize{
-//		Schedules -> new TimerScheduler(this)
-		
+
 		//Periodic task every 1 second
 		every(1.seconds)[updateCounter]
 		
