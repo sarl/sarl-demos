@@ -1,0 +1,26 @@
+package io.sarl.demos.basic
+
+import io.sarl.core.Initialize
+import io.sarl.core.Destroy
+
+import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
+
+/*
+ * A "Hello World" Agent.
+ */
+agent HelloAgent{
+	
+	uses Lifecycle, Schedules
+	
+	/* Print "Hello World" when spawned and wait 2 seconds are kill itself */
+	on Initialize {
+		System.out.println("Hello World!")
+		in(2000)[killMe]
+	} 
+	
+	/* Print "Goodbye World" before dying */
+	on Destroy {
+		System.out.println("Goodbye World!")
+	}
+}
