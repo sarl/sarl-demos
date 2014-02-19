@@ -1,7 +1,8 @@
 package io.sarl.demos.filesearch
 
-import java.io.File
+
 import io.sarl.core.Initialize
+import io.sarl.core.Destroy
 import io.sarl.core.Behaviors
 import io.sarl.core.Lifecycle
 import io.sarl.core.ExternalContextAccess
@@ -9,10 +10,16 @@ import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.InnerContextAccess
 import io.sarl.core.Schedules
 import static java.lang.String.*
+import java.util.Date
+import java.io.File
+import io.janusproject.kernel.AddressScope
+import io.sarl.lang.core.Event
+import io.sarl.lang.core.Address
 
 /* Search for a given minSize (in kb) */
 event Search {
-	var minSize : Integer
+	var fileMatch : String
+	var date : Date
 }
 
 /* Notify a file matching the criteria was found */
@@ -23,6 +30,24 @@ event FoundFile {
 /* Request the agent to stop processing */
 event Stop{
 	
+}
+
+
+
+
+agent SearchCommanderAgent {
+	uses Behaviors, Lifecycle, DefaultContextInteractions, InnerContextAccess,Schedules
+	on Initialize {
+		emit(new Search=>[fileMatch=".sarl";date=new Date()])
+	}
+	
+	on FoundFile{
+		println(format("[receiver = %s, source=%s] Matching File Found [path=%s, size=%s kb]",ID, occurrence.source.UUID,occurrence.file.absolutePath, occurrence.file.length / 1024))		
+	}
+	
+	on Destroy {
+		println("Commander I'm about to die, bye :-)")
+	}
 }
 
 /*
@@ -42,17 +67,22 @@ agent FileSearchAgent {
 
 	var myPath : String
 	var stayAlive : Boolean
-
+	var cmdAddr : Address
+	
 	on Initialize {  
+		
 		myPath = occurrence.parameters.get(0) as String
-		wake(new Search =>[minSize=new Integer(occurrence.parameters.get(1) as String)])
-		stayAlive = new Boolean(occurrence.parameters.get(2) as String)
+		//wake(new Search =>[minSize=new Integer(occurrence.parameters.get(1) as String)])
+		stayAlive = Boolean.parseBoolean(occurrence.parameters.get(1) as String);
+		println("FileSearch Launched in "+myPath)
 	}
 	
 	on Search{
-		val minSize = occurrence.minSize
+		val maxDate = occurrence.date
+		val fMatch = occurrence.fileMatch
+		cmdAddr = occurrence.source
 		
-		println(format("[ID=%s - parent %s] Searching in %s", ID, defaultContext.ID,myPath))
+		println(format("[ID=%s - parent %s] Searching in %s file matching %s created before %s", ID, defaultContext.ID,myPath,fMatch,maxDate.toString))
 		
 		
 		val dir = new File(myPath)
@@ -60,12 +90,15 @@ agent FileSearchAgent {
 			throw new IllegalArgumentException("Path ["+myPath+"] is not a Directory")
 		}
 		
-		for(f : dir.listFiles){
+		for(f : dir.listFiles()){
 			if(f.directory){
-				FileSearchAgent.spawnInContext(innerContext,#[f.absolutePath,minSize.toString,false.toString])
+				if(!f.name.equals(".")&& !f.name.equals("..")) {
+					val targetID = FileSearchAgent.spawnInContext(innerContext,#[f.absolutePath,false.toString]);
+					innerContext.defaultSpace.emit(new Search =>[source=innerContext.defaultSpace.getAddress(ID); date=maxDate;fileMatch = fMatch], AddressScope.getScope(innerContext.defaultSpace.getAddress(targetID)));
+				}
 			}else{
-				if(f.length >= (minSize * 1024)){
-					emit(new FoundFile =>[file = f])
+				if((maxDate.time >= f.lastModified) && !(f.name.startsWith(".")) && (f.name.endsWith(fMatch))){
+					emit(new FoundFile =>[file = f],AddressScope.getScope(cmdAddr))
 				}
 			}
 		}
@@ -78,6 +111,8 @@ agent FileSearchAgent {
 	
 	on FoundFile{
 		println(format("[receiver = %s, source=%s] Matching File Found [path=%s, size=%s kb]",ID, occurrence.source.UUID,occurrence.file.absolutePath, occurrence.file.length / 1024))
+		emit(occurrence, AddressScope.getScope(cmdAddr));	
+		
 	}
 	
 	on Stop{
@@ -85,6 +120,13 @@ agent FileSearchAgent {
 		killMe
 	}
 	
+	on Destroy {
+		println("I'm about to die, bye :-)")
+	}
+	
+	def isInternal(e:Event) : boolean {
+		return e.source.spaceId.equals(innerContext.defaultSpace.ID);
+	}
 	def hasMembers : boolean {
 		return innerContext.defaultSpace.participants.size > 1
 	}
