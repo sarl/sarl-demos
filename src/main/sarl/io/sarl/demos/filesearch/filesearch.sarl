@@ -24,7 +24,7 @@ event Search {
 
 /* Notify a file matching the criteria was found */
 event FoundFile {
-	var file : File
+	var file : String
 }
 
 /* Request the agent to stop processing */
@@ -42,7 +42,7 @@ agent SearchCommanderAgent {
 	}
 	
 	on FoundFile{
-		println(format("[receiver = %s, source=%s] Matching File Found [path=%s, size=%s kb]",ID, occurrence.source.UUID,occurrence.file.absolutePath, occurrence.file.length / 1024))		
+		println(format("[receiver = %s, source=%s] Matching File Found [path=%s]",ID, occurrence.source.UUID,occurrence.file))		
 	}
 	
 	on Destroy {
@@ -98,7 +98,7 @@ agent FileSearchAgent {
 				}
 			}else{
 				if((maxDate.time >= f.lastModified) && !(f.name.startsWith(".")) && (f.name.endsWith(fMatch))){
-					emit(new FoundFile =>[file = f],AddressScope.getScope(cmdAddr))
+					emit(new FoundFile =>[file = f.absolutePath],AddressScope.getScope(cmdAddr))
 				}
 			}
 		}
@@ -110,7 +110,7 @@ agent FileSearchAgent {
 	}
 	
 	on FoundFile{
-		println(format("[receiver = %s, source=%s] Matching File Found [path=%s, size=%s kb]",ID, occurrence.source.UUID,occurrence.file.absolutePath, occurrence.file.length / 1024))
+		println(format("[receiver = %s, source=%s] Matching File Found [path=%s]",ID, occurrence.source.UUID,occurrence.file))	
 		emit(occurrence, AddressScope.getScope(cmdAddr));	
 		
 	}
@@ -127,6 +127,7 @@ agent FileSearchAgent {
 	def isInternal(e:Event) : boolean {
 		return e.source.spaceId.equals(innerContext.defaultSpace.ID);
 	}
+	
 	def hasMembers : boolean {
 		return innerContext.defaultSpace.participants.size > 1
 	}
