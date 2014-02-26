@@ -1,0 +1,91 @@
+package io.sarl.demos.queryfactorial
+
+import io.sarl.core.Behaviors
+import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
+
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Initialize
+import io.sarl.core.Destroy
+import io.sarl.lang.core.Agent
+
+event Factorial {
+	var number : Integer
+	var value : Integer
+} 
+
+event Calculate { 
+	var number : Integer 
+} 
+event ComputationDone { 
+	var result : Integer 
+}
+
+capacity Logging {	
+	def debug(s: String)
+	def info(s: String)
+}
+
+skill BasicConsoleLogging implements Logging {
+	new (owner:Agent){
+		super(owner)
+	}
+	
+	def debug(s: String) {
+		System.out.println("DEBUG:"+s)
+	}
+	
+	def info(s: String)	 {
+		System.out.println("INFO:"+s)
+	}
+}
+
+agent FactorialQueryAgent {
+	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions
+	
+	on Initialize {
+		setSkill(Logging,new BasicConsoleLogging(this));
+		info("Query sent with number 5")
+		emit(new Calculate=>[number=5])
+	}
+		
+	on ComputationDone {
+		info("Query: Result of Factorial 5 is "+occurrence.result)
+		killMe
+	}
+	
+	on Destroy {
+		debug("Query: I'm ready to die") 
+	}
+}
+
+agent FactorialAgent {
+	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions
+	var upto : Integer = 10
+	  
+	on Initialize {		
+		setSkill(Logging,new BasicConsoleLogging(this));
+		info("Factorial initialized")	
+	} 
+
+	on Factorial [occurrence.number < upto ] {		
+		wake(new Factorial => [ number = occurrence.number + 1 ; value = occurrence.value * (occurrence.number+1) ])
+	}
+
+	on Factorial [ occurrence.number == upto ] {  
+		info("Factorial of " + upto + " is " + occurrence.value)	
+		emit(new ComputationDone=>[result=occurrence.value])	
+		killMe
+	}
+	
+	on Calculate {
+		this.upto  = new Integer(occurrence.number);
+		info("Received Calculate for " + this.upto)   
+		wake(new Factorial => [ number = 0 ; value = 1 ])
+	}
+	
+	on Destroy {
+		debug("Factorial: I'm ready to die") 
+	}
+}
+
