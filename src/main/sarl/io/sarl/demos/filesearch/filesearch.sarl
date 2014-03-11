@@ -12,9 +12,9 @@ import io.sarl.core.Schedules
 import static java.lang.String.*
 import java.util.Date
 import java.io.File
-import io.janusproject.kernel.AddressScope
 import io.sarl.lang.core.Event
 import io.sarl.lang.core.Address
+import io.sarl.util.AddressScope
 
 /* Search for a given minSize (in kb) */
 event Search {
