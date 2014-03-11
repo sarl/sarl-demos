@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.sarl.demos</groupId>
-	<artifactId>counteragent</artifactId>
+	<artifactId>sarl-demos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>Demos set of the SARL Agent Oriented Programming Language</name>
@@ -508,6 +508,11 @@
 			<id>io.sarl.maven</id>
 			<name>SARL Repository</name>
 			<url>http://maven.sarl.io/</url>
+		</repository>
+		<repository>
+			<id>io.janusproject.maven</id>
+			<name>Janus Repository</name>
+			<url>http://maven.janusproject.io/</url>
 		</repository>
 	</repositories>
 
