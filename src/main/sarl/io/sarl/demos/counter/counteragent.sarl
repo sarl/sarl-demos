@@ -29,7 +29,6 @@ agent CounterAgent {
 			if(defaultSpace.participants.size > 1) {
 				println("Waking") 
 				wake(new MyEvent) 
-				task("test-presence")
 			}
 			else {
 				println("Number of participants in default space : " + defaultSpace.participants.size)
