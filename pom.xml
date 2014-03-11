@@ -503,7 +503,7 @@
 			</roles>
 		</developer>
 	</developers>
-	
+
 	<!-- =================== -->
 	<!-- ==== Repositories === -->
 	<!-- =================== -->
@@ -513,13 +513,49 @@
 			<id>io.sarl.maven</id>
 			<name>SARL Repository</name>
 			<url>http://maven.sarl.io/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 		</repository>
 		<repository>
 			<id>io.janusproject.maven</id>
 			<name>Janus Repository</name>
 			<url>http://maven.janusproject.io/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
 		</repository>
 	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>io.sarl.maven</id>
+			<name>SARL Repository</name>
+			<url>http://maven.sarl.io/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>io.janusproject.maven</id>
+			<name>Janus Repository</name>
+			<url>http://maven.janusproject.io/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 
 
 	<!-- =================== -->
@@ -536,5 +572,5 @@
 			<url>file:///var/www/sarl-maven-repository/</url>
 		</snapshotRepository>
 	</distributionManagement>
-	
+
 </project>
