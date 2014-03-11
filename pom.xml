@@ -498,4 +498,33 @@
 			</roles>
 		</developer>
 	</developers>
+	
+	<!-- =================== -->
+	<!-- ==== Repositories === -->
+	<!-- =================== -->
+
+	<repositories>
+		<repository>
+			<id>io.sarl.maven</id>
+			<name>SARL Repository</name>
+			<url>http://maven.sarl.io/</url>
+		</repository>
+	</repositories>
+
+
+	<!-- =================== -->
+	<!-- ==== Deployment === -->
+	<!-- =================== -->
+
+	<distributionManagement>
+		<repository>
+			<id>local-release-repository</id>
+			<url>file:///var/www/sarl-maven-repository/</url>
+		</repository>
+		<snapshotRepository>
+			<id>local-snapshot-repository</id>
+			<url>file:///var/www/sarl-maven-repository/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	
 </project>
