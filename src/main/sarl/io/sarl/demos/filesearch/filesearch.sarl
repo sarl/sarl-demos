@@ -9,6 +9,12 @@ import io.sarl.core.ExternalContextAccess
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.InnerContextAccess
 import io.sarl.core.Schedules
+import io.sarl.core.AgentSpawned
+import io.sarl.core.AgentKilled
+import io.sarl.core.MemberJoined
+import io.sarl.core.MemberLeft
+import io.sarl.core.ContextJoined
+import io.sarl.core.ContextLeft
 import static java.lang.String.*
 import java.util.Date
 import java.io.File
@@ -39,6 +45,7 @@ agent SearchCommanderAgent {
 	uses Behaviors, Lifecycle, DefaultContextInteractions, InnerContextAccess,Schedules
 	on Initialize {
 		emit(new Search=>[fileMatch=".sarl";date=new Date()])
+		println("SearchCommander initialized")
 	}
 	
 	on FoundFile{
@@ -130,6 +137,35 @@ agent FileSearchAgent {
 	
 	def hasMembers : boolean {
 		return innerContext.defaultSpace.participants.size > 1
+	}
+	
+	
+	on ContextJoined {
+		println("ContextJoined, contextID:"+occurrence.holonContextID+" SpaceID: "+occurrence.defaultSpaceID)
+	}
+	
+	on ContextLeft {
+		println("ContextLeft, contextID:"+occurrence.holonContextID)
+	}
+	
+	on MemberJoined {
+		println("MemberJoined, agentID:"+occurrence.agentID)
+	}
+	
+	on MemberLeft {
+		println("MemberLeft, agentID:"+occurrence.agentID)		
+	}
+	
+	on AgentSpawned {
+		println("AgentSpawned, agentID:"+occurrence.agentID+" AgentType: "+occurrence.agentType)		
+	}
+	
+	on AgentKilled {
+		println("AgentKilled, agentID:"+occurrence.agentID)	
+	}
+	
+	on Destroy {
+		println("Destroy")	
 	}
 	
 }
