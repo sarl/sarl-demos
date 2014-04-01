@@ -27,9 +27,6 @@ capacity Logging {
 }
 
 skill BasicConsoleLogging implements Logging {
-	new (owner:Agent){
-		super(owner)
-	}
 	
 	def debug(s: String) {
 		System.out.println("DEBUG:"+s)
@@ -44,7 +41,7 @@ agent FactorialQueryAgent {
 	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions
 	
 	on Initialize {
-		setSkill(Logging,new BasicConsoleLogging(this));
+		setSkill(Logging,new BasicConsoleLogging());
 		info("Query sent with number 5")
 		emit(new Calculate=>[number=5])
 	}
@@ -64,7 +61,7 @@ agent FactorialAgent {
 	var upto : Integer = 10
 	  
 	on Initialize {		
-		setSkill(Logging,new BasicConsoleLogging(this));
+		setSkill(Logging,new BasicConsoleLogging());
 		info("Factorial initialized")	
 	} 
 
