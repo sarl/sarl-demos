@@ -1,0 +1,44 @@
+package io.sarl.demos.basic
+
+import io.sarl.core.Initialize
+import io.sarl.core.Destroy
+
+import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
+
+agent AbstractAgent {
+
+	uses Lifecycle
+
+	on Initialize {
+		System.out.println("Hello World in the super agent!")
+	}
+
+	def sayGoodBye {
+		System.out.println("Goodbye World!")
+	}
+
+}
+
+/*
+ * A "Hello World" Agent with inheritance on Agent class.
+ */
+agent HelloChildAgent extends AbstractAgent{
+	
+	uses Schedules
+	
+	/* Print "Hello World" when spawned and wait 2 seconds before kill itself */
+	on Initialize {
+		System.out.println("Hello World in the child agent!")
+		in(2000)[killMe]
+	} 
+
+	def sayGoodBye {
+		super.sayGoodBye()
+	}
+	
+	/* Print "Goodbye World" before dying */
+	on Destroy {
+		sayGoodBye
+	}
+}
