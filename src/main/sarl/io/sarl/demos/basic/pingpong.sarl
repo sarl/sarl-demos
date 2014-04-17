@@ -1,0 +1,67 @@
+package io.sarl.demos.basic
+
+import io.sarl.core.Initialize
+import io.sarl.core.Destroy
+
+import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
+import io.sarl.core.DefaultContextInteractions
+
+event Ping {
+	var value : Integer
+	new (v : Integer) {
+		value = v
+	}
+}
+
+event Pong {
+	var value : Integer
+	new (v : Integer) {
+		value = v
+	}
+}
+
+/*
+ * Send a ping.
+ */
+agent PingAgent{
+	
+	uses Schedules, DefaultContextInteractions
+	
+	var count : Integer
+	
+	/* Print "Hello World" when spawned and wait 2 seconds are kill itself */
+	on Initialize {
+		println("Starting pinging")
+		count = 0
+		every(1000) [
+			println("Send Ping: "+count)
+			emit(new Ping(count))
+			count = count + 1
+		]
+	} 
+	
+	on Pong {
+		println("Recv Pong: "+occurrence.value)
+	}
+	
+}
+
+/*
+ * Receive a ping, send a pong.
+ */
+agent PongAgent {
+
+	uses DefaultContextInteractions
+
+	on Initialize {
+		println("Waiting for ping")
+	}
+
+	on Ping {
+		println("Recv Ping: "+occurrence.value)
+		println("Send Pong: "+occurrence.value)
+		emit(new Pong(occurrence.value))
+	}
+	
+}
