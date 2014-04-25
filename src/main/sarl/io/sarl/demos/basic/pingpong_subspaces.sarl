@@ -1,0 +1,90 @@
+package io.sarl.demos.basic
+
+import io.sarl.core.Initialize
+import io.sarl.core.Destroy
+
+import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.ExternalContextAccess
+import io.sarl.core.Behaviors
+import io.sarl.util.OpenEventSpace
+import io.sarl.util.OpenEventSpaceSpecification
+import io.sarl.core.AgentTask
+
+event Ping {
+	var value : Integer
+	new (v : Integer) {
+		value = v
+	}
+}
+
+event Pong {
+	var value : Integer
+	new (v : Integer) {
+		value = v
+	}
+}
+
+/*
+ * Send a ping.
+ */
+agent SubspacePingAgent{
+	
+	uses Lifecycle, Schedules, DefaultContextInteractions, ExternalContextAccess, Behaviors
+	
+	var count : Integer
+	var space : OpenEventSpace
+	
+	/* Print "Hello World" when spawned and wait 2 seconds are kill itself */
+	on Initialize {
+		println("SHARED_SPACE="+PingPongConstants.SHARED_SPACE)
+		space = defaultContext.getOrCreateSpace(OpenEventSpaceSpecification, PingPongConstants.SHARED_SPACE)
+		space.register(asEventListener())
+		println("Starting waiting for partner")
+		count = 0
+		every(1000) [
+			if (space.participants.size()>1) {
+				println("Send Ping: "+count)
+				var evt = new Ping(count)
+				evt.source = space.getAddress(getID());
+				space.emit(evt)
+				count = count + 1
+			}
+			else {
+				println("I'am alone")
+			}
+		]
+	} 
+	
+	on Pong {
+		println("Recv Pong: "+occurrence.value)
+	}
+	
+}
+
+/*
+ * Receive a ping, send a pong.
+ */
+agent SubspacePongAgent {
+
+	uses Lifecycle, DefaultContextInteractions, Behaviors
+	
+	var space : OpenEventSpace
+
+	on Initialize {
+		println("SHARED_SPACE="+PingPongConstants.SHARED_SPACE)
+		space = defaultContext.getOrCreateSpace(OpenEventSpaceSpecification, PingPongConstants.SHARED_SPACE)
+		space.register(asEventListener())
+		println("Waiting for pings")
+	}
+
+	on Ping {
+		println("Recv Ping: "+occurrence.value)
+		println("Send Pong: "+occurrence.value)
+		var evt = new Pong(occurrence.value)
+		evt.source = space.getAddress(getID());
+		space.emit(evt)
+	}
+	
+}

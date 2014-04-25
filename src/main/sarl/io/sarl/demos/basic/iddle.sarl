@@ -1,0 +1,14 @@
+package io.sarl.demos.basic
+
+import io.sarl.core.Initialize
+
+/*
+ * An agent that does nothing.
+ */
+agent IddleAgent{
+	
+	on Initialize {
+		System.out.println("I'm alive!")
+	} 
+
+}

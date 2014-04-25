@@ -1,0 +1,41 @@
+/*
+ * $Id$
+ * 
+ * Janus platform is an open-source multiagent platform.
+ * More details on http://www.janusproject.io
+ *
+ * Copyright (C) 2014 Sebastian RODRIGUEZ, Nicolas GAUD, Stéphane GALLAND.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.sarl.demos.basic;
+
+import java.util.UUID;
+
+/**
+ * @author $Author: sgalland$
+ * @version $FullVersion$
+ * @mavengroupid $GroupId$
+ * @mavenartifactid $ArtifactId$
+ */
+public class PingPongConstants {
+
+	/** UUID of the shared space used by the Ping/pong agents.
+	 */
+	public static final UUID SHARED_SPACE = UUID.fromString("8a198638-ae7c-4445-9f8c-0097e83dfcfe"); //$NON-NLS-1$
+	
+	/** UUID of the shared context used by the Ping/pong agents.
+	 */
+	public static final UUID SHARED_CONTEXT = UUID.fromString("a5a9ebf5-1be1-4a51-b989-a5da2ed2e0ac"); //$NON-NLS-1$
+
+}
