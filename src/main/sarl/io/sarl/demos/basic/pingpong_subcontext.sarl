@@ -1,0 +1,119 @@
+package io.sarl.demos.basic
+
+import io.sarl.core.Initialize
+import io.sarl.core.Destroy
+
+import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.ExternalContextAccess
+import io.sarl.core.Behaviors
+import io.sarl.core.InnerContextAccess
+import io.sarl.util.OpenEventSpace
+import io.sarl.lang.core.Address
+import io.sarl.util.OpenEventSpaceSpecification
+import java.util.UUID
+import io.sarl.lang.core.SpaceID
+
+event PingPongContext {
+	var contextId : UUID
+	var spaceId : SpaceID
+	new (cId : UUID, sId : SpaceID) {
+		contextId = cId
+		spaceId = sId
+	}
+}
+
+event Ping {
+	var value : Integer
+	new (v : Integer) {
+		value = v
+	}
+}
+
+event Pong {
+	var value : Integer
+	new (v : Integer) {
+		value = v
+	}
+}
+
+/*
+ * Send a ping.
+ */
+agent SubcontextPingAgent{
+	
+	uses Lifecycle, Schedules, DefaultContextInteractions, ExternalContextAccess, Behaviors, InnerContextAccess
+	
+	var count : Integer
+	var space : OpenEventSpace
+	var spaceAddress : Address
+	
+	/* Print "Hello World" when spawned and wait 2 seconds are kill itself */
+	on Initialize {
+		println("SHARED_SPACE="+PingPongConstants.SHARED_SPACE)
+		println("Starting waiting for partner")
+		count = 0
+	}
+	
+	on PingPongContext {
+		join(occurrence.contextId, occurrence.spaceId.ID)
+
+		var context = getContext(occurrence.contextId)
+
+		space = context.getOrCreateSpace(OpenEventSpaceSpecification, PingPongConstants.SHARED_SPACE)
+		space.register(asEventListener())
+		
+		spaceAddress = space.getAddress(ID)
+		
+		println("Found a partner in context: "+context)
+
+		println("Send Ping: "+count)
+		var evt = new Ping(count)
+		evt.source = spaceAddress
+		space.emit(evt)
+		count = count + 1		
+	}
+	
+	on Pong {
+		println("Recv Pong: "+occurrence.value)
+		in(1000) [
+			println("Send Ping: "+count)
+			var evt = new Ping(count)
+			evt.source = spaceAddress
+			space.emit(evt)
+			count = count + 1		
+		]
+	}
+	
+}
+
+/*
+ * Receive a ping, send a pong.
+ */
+agent SubcontextPongAgent {
+
+	uses Lifecycle, DefaultContextInteractions, InnerContextAccess, Behaviors
+
+	var space : OpenEventSpace
+	var spaceAddress : Address
+
+	on Initialize {
+		space = innerContext.getOrCreateSpace(OpenEventSpaceSpecification, PingPongConstants.SHARED_SPACE)
+		space.register(asEventListener())
+
+		spaceAddress = space.getAddress(ID)
+
+		emit(new PingPongContext(innerContext.ID, innerContext.defaultSpace.ID))
+		println("Waiting for ping")
+	}
+
+	on Ping {
+		println("Recv Ping: "+occurrence.value)
+		println("Send Pong: "+occurrence.value)
+		var evt = new Pong(occurrence.value)
+		evt.source = spaceAddress
+		space.emit(evt)
+	}
+	
+}

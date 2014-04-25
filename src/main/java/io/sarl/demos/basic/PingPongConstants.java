@@ -34,8 +34,4 @@ public class PingPongConstants {
 	 */
 	public static final UUID SHARED_SPACE = UUID.fromString("8a198638-ae7c-4445-9f8c-0097e83dfcfe"); //$NON-NLS-1$
 	
-	/** UUID of the shared context used by the Ping/pong agents.
-	 */
-	public static final UUID SHARED_CONTEXT = UUID.fromString("a5a9ebf5-1be1-4a51-b989-a5da2ed2e0ac"); //$NON-NLS-1$
-
 }
