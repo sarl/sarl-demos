@@ -5,6 +5,7 @@ import io.sarl.core.Destroy
 
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
+import io.janusproject.kernel.executor.ChuckNorrisException
 
 /*
  * A "Hello World" Agent.
@@ -16,7 +17,10 @@ agent HelloAgent{
 	/* Print "Hello World" when spawned and wait 2 seconds are kill itself */
 	on Initialize {
 		System.out.println("Hello World!")
-		in(2000)[killMe]
+		in(2000)[
+			killMe
+			System.out.println("I'am killed! But this message should not appear!")
+		]
 	} 
 	
 	/* Print "Goodbye World" before dying */
