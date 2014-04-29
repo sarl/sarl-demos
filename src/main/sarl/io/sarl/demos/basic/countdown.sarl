@@ -2,6 +2,8 @@ package io.sarl.demos.basic
 
 import io.sarl.core.Initialize
 import io.sarl.core.Destroy
+import io.sarl.core.ContextJoined
+import io.sarl.core.ContextLeft
 
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
@@ -31,4 +33,14 @@ agent CountDownAgent{
 	on Destroy {
 		System.out.println("Goodbye World!")
 	}
+	
+	on ContextJoined {
+		System.out.println("Agent joined the context: "+occurrence.holonContextID);
+		System.out.println("----- with default space: "+occurrence.defaultSpaceID);
+	}
+
+	on ContextLeft {
+		System.out.println("Agent exited from the context: "+occurrence.holonContextID);
+	}
+
 }
