@@ -4,13 +4,15 @@ import io.sarl.core.Behaviors
 import io.sarl.core.Lifecycle
 
 import io.sarl.core.Initialize
+import java.util.concurrent.atomic.AtomicInteger
+
 //import io.sarl.util.TimerScheduler
 
 event Die {}
 
 agent ScheduleAgent {
 	uses Schedules, Lifecycle, Behaviors 
-	var secs : Integer = 0
+	var secs : AtomicInteger = new AtomicInteger(0)
 	var hideText = false
 	
 	on Initialize{
@@ -32,7 +34,7 @@ agent ScheduleAgent {
 		task("say-hi").in(1.seconds)[println('HelloWorld')]
 		
 		//Named task can be retrieved later for be modified if necessary.		
-		task("say-hi2").in(3.seconds)[println('HelloWorld that should never show')]
+		task("say-hi2").in(4.seconds)[println('HelloWorld that should never show')].unless[hideText]
 		
 		
 		//You can compose schedules
@@ -44,11 +46,11 @@ agent ScheduleAgent {
 		value * 1000 
 	}
 	def updateCounter{
-		this.secs=this.secs+1;
+		this.secs.incrementAndGet
 	}
 	
 	def secondsFromStart{
-		 println("Seconds from Initialize "+secs)
+		 println("Seconds from Initialize "+secs.get)
 	}
 	
 	on Die {
