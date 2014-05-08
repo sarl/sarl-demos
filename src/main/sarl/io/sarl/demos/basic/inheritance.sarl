@@ -30,7 +30,11 @@ agent HelloChildAgent extends AbstractAgent{
 	/* Print "Hello World" when spawned and wait 2 seconds before kill itself */
 	on Initialize {
 		System.out.println("Hello World in the child agent!")
-		in(2000)[killMe]
+		in(2000)[
+			System.out.println("Kill myself")
+			killMe
+			System.out.println("This message must never be displayed")
+		]
 	} 
 
 	def sayGoodBye {
