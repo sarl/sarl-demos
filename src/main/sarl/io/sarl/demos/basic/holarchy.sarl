@@ -1,0 +1,63 @@
+package io.sarl.demos.basic
+
+import io.sarl.core.Initialize
+import io.sarl.core.Destroy
+
+import io.sarl.core.Lifecycle
+import io.sarl.core.InnerContextAccess
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Schedules
+import io.janusproject.kernel.bic.MicroKernelCapacity
+import io.janusproject.services.ContextSpaceService
+import io.sarl.lang.core.AgentContext
+
+agent Holon{
+	
+	uses Lifecycle, InnerContextAccess, Schedules, DefaultContextInteractions
+	
+	val depth = 1
+	
+	var isRoot : boolean
+	
+	on Initialize {
+		var count : Integer
+		if (occurrence.parameters.isEmpty) {
+			count = depth
+			isRoot = true
+		}
+		else {
+			isRoot = false
+			count = occurrence.parameters.get(0) as Integer
+			if (count==null) count = 0
+		}
+		
+ 		if (isRoot || count > 0) {
+			count = count - 1
+			for(i : 1..1) {
+				spawnInContext(Holon, innerContext, #[count])
+			}
+			every(1000) [
+				if (innerContext.defaultSpace.participants.size == 1) {
+					killMe
+				}
+			]
+		}
+		else {
+			in(5000) [
+				killMe
+			]
+		}
+	}
+	
+	on Destroy {
+		if (isRoot) {
+			var s = getSkill(MicroKernelCapacity)
+			var serv = s.getService(ContextSpaceService)
+			System.out.println(serv.contexts);
+			for(AgentContext context : serv.contexts) {
+				System.out.println(context.spaces);
+			}
+		}
+	}
+		
+}
