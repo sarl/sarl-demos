@@ -11,11 +11,38 @@ import io.janusproject.kernel.bic.MicroKernelCapacity
 import io.janusproject.services.ContextSpaceService
 import io.sarl.lang.core.AgentContext
 
+event HolarchyDestroyed {}
+
+agent HolarchyManager {
+	
+	uses Lifecycle, Schedules, DefaultContextInteractions
+
+	on Initialize {
+		spawn(Holon, #[])
+	}
+	
+	on HolarchyDestroyed {
+		System.out.println("Holarchy destroyed. Waiting awhile to ensure that all pending context destruction is processed.")
+		in(5000) [
+			var s = getSkill(MicroKernelCapacity)
+			var serv = s.getService(ContextSpaceService)
+			System.out.println("Registered contexts are: "+serv.contexts)
+			for(AgentContext context : serv.contexts) {
+				System.out.println("Space in context "+context.ID
+					+":" + context.spaces)
+			}
+			killMe
+		]
+	}
+	
+}
+
 agent Holon{
 	
 	uses Lifecycle, InnerContextAccess, Schedules, DefaultContextInteractions
 	
-	val depth = 1
+	val depth = 2
+	val childCount = 1
 	
 	var isRoot : boolean
 	
@@ -33,17 +60,21 @@ agent Holon{
 		
  		if (isRoot || count > 0) {
 			count = count - 1
-			for(i : 1..1) {
+			for(i : 1..childCount) {
+				System.out.println("Create the child #"+i+" at level "+count)
 				spawnInContext(Holon, innerContext, #[count])
 			}
 			every(1000) [
 				if (innerContext.defaultSpace.participants.size == 1) {
+					System.out.println("No more child: I'm killing myself.")
 					killMe
 				}
 			]
 		}
 		else {
-			in(5000) [
+			System.out.println("As leaf: Waiting awhile before commiting a suicide.")
+			in(10000) [
+				System.out.println("As leaf: I'm killing myself.")
 				killMe
 			]
 		}
@@ -51,12 +82,7 @@ agent Holon{
 	
 	on Destroy {
 		if (isRoot) {
-			var s = getSkill(MicroKernelCapacity)
-			var serv = s.getService(ContextSpaceService)
-			System.out.println(serv.contexts);
-			for(AgentContext context : serv.contexts) {
-				System.out.println(context.spaces);
-			}
+			emit(new HolarchyDestroyed)
 		}
 	}
 		
