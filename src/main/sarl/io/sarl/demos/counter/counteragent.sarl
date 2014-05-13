@@ -9,14 +9,11 @@ import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Schedules
 import io.sarl.core.Behaviors
 
-event MyEvent {
-}
+event MyEvent
 
-event OtherEvent {
-}
+event OtherEvent
 
-event Die {
-}
+event Die
 
 agent CounterAgent {
 	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors

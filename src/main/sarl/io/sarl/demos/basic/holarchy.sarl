@@ -10,8 +10,9 @@ import io.sarl.core.Schedules
 import io.janusproject.kernel.bic.MicroKernelCapacity
 import io.janusproject.services.ContextSpaceService
 import io.sarl.lang.core.AgentContext
+import io.sarl.lang.core.Agent
 
-event HolarchyDestroyed {}
+event HolarchyDestroyed
 
 agent HolarchyManager {
 	

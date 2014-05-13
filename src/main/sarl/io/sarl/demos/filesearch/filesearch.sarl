@@ -34,9 +34,7 @@ event FoundFile {
 }
 
 /* Request the agent to stop processing */
-event Stop{
-	
-}
+event Stop
 
 
 
