@@ -28,7 +28,7 @@ agent HolarchyManager {
 			var s = getSkill(MicroKernelCapacity)
 			var serv = s.getService(ContextSpaceService)
 			System.out.println("Registered contexts are: "+serv.contexts)
-			for(AgentContext context : serv.contexts) {
+			for(context : serv.contexts) {
 				System.out.println("Space in context "+context.ID
 					+":" + context.spaces)
 			}

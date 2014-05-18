@@ -1,0 +1,39 @@
+package io.sarl.demos.basic
+
+import io.sarl.core.Initialize
+
+agent SyntaxExample {
+	
+	on Initialize {
+		
+	} 
+	
+	def standard(a : int, b : char) {
+		System.out.println("a="+a)
+		System.out.println("b="+b)
+	}
+
+	def varargs(a : int, b : char...) {
+		System.out.println("a="+a)
+		System.out.println("b="+b)
+	}
+
+	def optional(a : int, b : char='c', c : String) {
+		System.out.println("a="+a)
+		System.out.println("b="+b)
+		System.out.println("c="+c)
+	}
+
+	/*def optionalAndVarargs(a : int, b : char='c', c : String...) {
+		System.out.println("a="+a)
+		System.out.println("b="+b)
+		System.out.println("c="+c)
+	}
+
+	def optionalAndVarargs(a : int, b : char='c', c : String="S") {
+		System.out.println("a="+a)
+		System.out.println("b="+b)
+		System.out.println("c="+c)
+	}*/
+
+}
