@@ -2,10 +2,29 @@ package io.sarl.demos.basic
 
 import io.sarl.core.Initialize
 
-agent SyntaxExample {
+capacity CapTest1 {
+	def func1 : int
+}
+
+capacity CapTest2 extends CapTest1 {
+	def func2(a : int)
+}
+
+agent AbstractSyntaxAgent {
+	uses CapTest1
 	
 	on Initialize {
 		
+	}
+	
+}
+
+agent SyntaxExample extends AbstractSyntaxAgent {
+
+	uses CapTest2
+	
+	on Initialize {
+		func2(func1)
 	} 
 	
 	def standard(a : int, b : char) {
