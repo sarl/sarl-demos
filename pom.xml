@@ -19,8 +19,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sarl.version>0.1.0-SNAPSHOT</sarl.version>
 		<janus.version>2.0.0-SNAPSHOT</janus.version>
-		<xtext.version>2.5.0</xtext.version>
-		<guice.version>4.0-beta</guice.version>
+		<xtext.version>2.6.0</xtext.version>
+		<guice.version>4.0-beta4</guice.version>
 	</properties>
 
 	<!-- ======================================= -->
@@ -404,7 +404,7 @@
 				<configuration>
 					<source>1.7</source>
 					<target>1.7</target>
-					<encoding>UTF-8</encoding>
+					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
 
