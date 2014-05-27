@@ -13,7 +13,7 @@ agent IddleAgent{
 		aFunction(true, 3, 4, 5)
 	}
 	
-	def aFunction(arg1 : boolean, arg2 : int...) {
+	def aFunction(arg1 : boolean, arg2 : int*) {
 		System.out.println(arg1)
 		System.out.println(Arrays.toString(arg2))
 	} 

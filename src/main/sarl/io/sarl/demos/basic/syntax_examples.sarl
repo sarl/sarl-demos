@@ -19,11 +19,21 @@ agent AbstractSyntaxAgent {
 	
 }
 
+skill MySkill implements CapTest2 {
+	def func1 : int {
+		return 34
+	}
+	def func2(a : int) {
+		System.out.println(a * 34)
+	}
+}
+
 agent SyntaxExample extends AbstractSyntaxAgent {
 
 	uses CapTest2
 	
 	on Initialize {
+		setSkill(CapTest2, new MySkill)
 		func2(func1)
 	} 
 	
@@ -32,7 +42,7 @@ agent SyntaxExample extends AbstractSyntaxAgent {
 		System.out.println("b="+b)
 	}
 
-	def varargs(a : int, b : char...) {
+	def varargs(a : int, b : char*) {
 		System.out.println("a="+a)
 		System.out.println("b="+b)
 	}
@@ -43,16 +53,10 @@ agent SyntaxExample extends AbstractSyntaxAgent {
 		System.out.println("c="+c)
 	}
 
-	/*def optionalAndVarargs(a : int, b : char='c', c : String...) {
+	def optionalAndVarargs(a : int, b : char='c', c : String*) {
 		System.out.println("a="+a)
 		System.out.println("b="+b)
 		System.out.println("c="+c)
 	}
-
-	def optionalAndVarargs(a : int, b : char='c', c : String="S") {
-		System.out.println("a="+a)
-		System.out.println("b="+b)
-		System.out.println("c="+c)
-	}*/
 
 }
