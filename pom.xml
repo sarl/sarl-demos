@@ -17,6 +17,7 @@
 		<year>2014</year>
 		<copyrighters>Sebastian RODRIGUEZ, Nicolas GAUD, Stéphane GALLAND</copyrighters>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<compiler.level>1.7</compiler.level>
 		<sarl.version>0.1.0-SNAPSHOT</sarl.version>
 		<janus.version>2.0.0-SNAPSHOT</janus.version>
 		<xtext.version>2.6.0</xtext.version>
@@ -51,6 +52,12 @@
 				<artifactId>io.sarl.sdk</artifactId>
 				<version>${sarl.version}</version>
 				<type>pom</type>
+				<exclusions>
+					<exclusion>
+						<artifactId>guava</artifactId>
+						<groupId>com.google.guava</groupId>
+					</exclusion>
+				</exclusions>
 			</dependency>
 
 			<dependency>
@@ -59,7 +66,6 @@
 				<version>${janus.version}</version>
 			</dependency>
 		</dependencies>
-
 	</dependencyManagement>
 
 	<!-- ======================================= -->
@@ -72,12 +78,6 @@
 			<groupId>io.sarl</groupId>
 			<artifactId>io.sarl.sdk</artifactId>
 			<type>pom</type>
-			<exclusions>
-				<exclusion>
-					<artifactId>guava</artifactId>
-					<groupId>com.google.guava</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -132,7 +132,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>license-maven-plugin</artifactId>
-					<version>1.6</version>
+					<version>1.7</version>
 				</plugin>
 
 				<plugin>
@@ -150,7 +150,7 @@
 				<plugin>
 					<groupId>org.jasig.maven</groupId>
 					<artifactId>maven-notice-plugin</artifactId>
-					<version>1.0.4</version>
+					<version>1.0.6.1</version>
 				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
@@ -312,6 +312,9 @@
 					</execution>
 				</executions>
 				<configuration>
+					<compilerSourceLevel>${compiler.level}</compilerSourceLevel>
+					<compilerTargetLevel>${compiler.level}</compilerTargetLevel>
+					<encoding>${project.build.sourceEncoding}</encoding>
 					<languages>
 						<language>
 							<setup>io.sarl.lang.SARLStandaloneSetup</setup>
@@ -348,6 +351,14 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<!-- Your JVM must support the JSR-045 to have the debugging feature activated -->
+					<!-- 
+					<hideSyntheticVariables>true</hideSyntheticVariables>
+					<xtendAsPrimaryDebugSource>true</xtendAsPrimaryDebugSource>
+					-->
+				</configuration>
 			</plugin>
 
 			<plugin>
@@ -402,8 +413,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>${compiler.level}</source>
+					<target>${compiler.level}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
