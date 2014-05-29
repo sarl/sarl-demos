@@ -1,11 +1,8 @@
 package io.sarl.demos.factorial
 
 import io.sarl.core.Behaviors
-import io.sarl.core.Lifecycle
-import io.sarl.core.Schedules
-
 import io.sarl.core.Initialize
-
+import io.sarl.core.Lifecycle
 
 event Factorial {
 	var number : Integer

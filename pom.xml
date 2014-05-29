@@ -339,27 +339,6 @@
 					</dependency>
 				</dependencies>
 			</plugin>
-			<plugin>
-				<groupId>org.eclipse.xtend</groupId>
-				<artifactId>xtend-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>xtend-install-debug-info</goal>
-							<!--<goal>testCompile</goal> <goal>xtend-test-install-debug-info</goal> -->
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<!-- Your JVM must support the JSR-045 to have the debugging feature activated -->
-					<!-- 
-					<hideSyntheticVariables>true</hideSyntheticVariables>
-					<xtendAsPrimaryDebugSource>true</xtendAsPrimaryDebugSource>
-					-->
-				</configuration>
-			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

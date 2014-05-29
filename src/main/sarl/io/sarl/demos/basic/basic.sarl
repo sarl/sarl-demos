@@ -5,7 +5,6 @@ import io.sarl.core.Destroy
 
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
-import io.janusproject.kernel.executor.ChuckNorrisException
 
 /*
  * A "Hello World" Agent.

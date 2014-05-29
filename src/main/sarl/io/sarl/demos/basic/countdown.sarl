@@ -7,7 +7,6 @@ import io.sarl.core.ContextLeft
 
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
-import io.janusproject.kernel.executor.ChuckNorrisException
 import java.util.concurrent.atomic.AtomicInteger
 
 /*

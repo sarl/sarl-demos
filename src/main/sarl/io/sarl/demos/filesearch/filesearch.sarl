@@ -1,26 +1,25 @@
 package io.sarl.demos.filesearch
 
-
-import io.sarl.core.Initialize
-import io.sarl.core.Destroy
-import io.sarl.core.Behaviors
-import io.sarl.core.Lifecycle
-import io.sarl.core.ExternalContextAccess
-import io.sarl.core.DefaultContextInteractions
-import io.sarl.core.InnerContextAccess
-import io.sarl.core.Schedules
-import io.sarl.core.AgentSpawned
 import io.sarl.core.AgentKilled
-import io.sarl.core.MemberJoined
-import io.sarl.core.MemberLeft
+import io.sarl.core.AgentSpawned
+import io.sarl.core.Behaviors
 import io.sarl.core.ContextJoined
 import io.sarl.core.ContextLeft
-import static java.lang.String.*
-import java.util.Date
-import java.io.File
-import io.sarl.lang.core.Event
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Destroy
+import io.sarl.core.Initialize
+import io.sarl.core.InnerContextAccess
+import io.sarl.core.Lifecycle
+import io.sarl.core.MemberJoined
+import io.sarl.core.MemberLeft
+import io.sarl.core.Schedules
 import io.sarl.lang.core.Address
+import io.sarl.lang.core.Event
 import io.sarl.util.AddressScope
+import java.io.File
+import java.util.Date
+
+import static java.lang.String.*
 
 /* Search for a given minSize (in kb) */
 event Search {
