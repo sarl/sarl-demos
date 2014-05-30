@@ -19,6 +19,10 @@ agent AbstractSyntaxAgent {
 	
 }
 
+event MyTestingEvent {
+	
+}
+
 skill MySkill implements CapTest2 {
 	def func1 : int {
 		return 34
@@ -35,8 +39,16 @@ agent SyntaxExample extends AbstractSyntaxAgent {
 	on Initialize {
 		setSkill(CapTest2, new MySkill)
 		func2(func1)
+	}
+	
+	on MyTestingEvent [false] {
+		
 	} 
 	
+	on MyTestingEvent [true] {
+		
+	} 
+
 	def standard(a : int, b : char) {
 		System.out.println("a="+a)
 		System.out.println("b="+b)
