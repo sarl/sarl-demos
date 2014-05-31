@@ -1,6 +1,7 @@
 package io.sarl.demos.basic
 
 import io.sarl.core.Initialize
+import io.sarl.core.DefaultContextInteractions
 
 capacity CapTest1 {
 	def func1 : int
@@ -42,11 +43,11 @@ agent SyntaxExample extends AbstractSyntaxAgent {
 	}
 	
 	on MyTestingEvent [false] {
-		
+		optional(45, 'f', "dfr")
 	} 
 	
 	on MyTestingEvent [true] {
-		
+		optionalAndVarargs(4)
 	} 
 
 	def standard(a : int, b : char) {
@@ -71,4 +72,13 @@ agent SyntaxExample extends AbstractSyntaxAgent {
 		System.out.println("c="+c)
 	}
 
+}
+
+agent MyAgent {
+
+	uses DefaultContextInteractions
+	
+	def myfunction(a : int, b : char, g : int) {
+	}
+	
 }

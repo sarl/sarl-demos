@@ -18,6 +18,7 @@
 		<copyrighters>Sebastian RODRIGUEZ, Nicolas GAUD, Stéphane GALLAND</copyrighters>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<compiler.level>1.7</compiler.level>
+		<sarl.version>0.1.0-SNAPSHOT</sarl.version>
 		<janus.version>2.0.0-SNAPSHOT</janus.version>
 		<xtext.version>2.6.0</xtext.version>
 		<guice.version>4.0-beta4</guice.version>
