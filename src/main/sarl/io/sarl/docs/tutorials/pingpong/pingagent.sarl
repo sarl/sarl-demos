@@ -1,0 +1,29 @@
+package io.sarl.docs.tutorials.pingpong
+
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Initialize
+import io.sarl.core.Schedules
+import io.sarl.util.AddressScope
+
+agent PingAgent {
+
+	uses DefaultContextInteractions, Schedules
+
+	on Pong {
+		emit(
+			new Ping( occurrence.index + 1 ),
+			AddressScope.getScope( occurrence.source )
+		)
+	}
+
+	on Initialize {
+		val task = task("waiting_for_partner")
+		task.every(1000) [
+			if (defaultSpace.participants.size > 1) {
+				emit( new Ping(0) )
+				task.cancel
+			}
+		]
+	}
+
+}

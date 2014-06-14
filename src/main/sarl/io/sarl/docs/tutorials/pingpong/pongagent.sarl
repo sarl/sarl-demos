@@ -1,0 +1,18 @@
+package io.sarl.docs.tutorials.pingpong
+
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.util.AddressScope
+
+agent PongAgent {
+	
+	uses DefaultContextInteractions
+	
+	on Ping {
+		
+		emit(
+			new Pong( occurrence.index ),
+			AddressScope.getScope( occurrence.source )
+		)
+		
+	}
+}
