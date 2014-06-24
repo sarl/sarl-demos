@@ -1,13 +1,13 @@
 package io.sarl.demos.basic
 
 import io.janusproject.kernel.bic.MicroKernelCapacity
-import io.janusproject.services.ContextSpaceService
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Destroy
 import io.sarl.core.Initialize
 import io.sarl.core.InnerContextAccess
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
+import io.janusproject.services.agentplatform.ContextSpaceService
 
 event HolarchyDestroyed
 
