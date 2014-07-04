@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.sarl.demos</groupId>
 	<artifactId>sarl-demos</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 
 	<name>Demos set of the SARL Agent Oriented Programming Language</name>
 	<url>http://www.sarl.io/</url>
@@ -19,8 +19,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<compiler.level>1.7</compiler.level>
 		<sarl.version>0.1.0-SNAPSHOT</sarl.version>
-		<janus.version>2.0.0-SNAPSHOT</janus.version>
-		<xtext.version>2.6.0</xtext.version>
+		<janus.version>2.0.1.0-SNAPSHOT</janus.version>
+		<xtext.version>2.6.2</xtext.version>
 		<guice.version>4.0-beta4</guice.version>
 	</properties>
 
