@@ -1,4 +1,4 @@
-package io.sarl.demos.basic
+package io.sarl.demos.basic.holarchy
 
 import io.janusproject.kernel.bic.MicroKernelCapacity
 import io.sarl.core.DefaultContextInteractions
@@ -39,8 +39,8 @@ agent Holon{
 	
 	uses Lifecycle, InnerContextAccess, Schedules, DefaultContextInteractions
 	
-	val depth = 2
-	val childCount = 1
+	val depth = 3
+	val childCount = 2
 	
 	var isRoot : boolean
 	

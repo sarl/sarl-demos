@@ -1,8 +1,7 @@
-package io.sarl.demos.queryfactorial
+package io.sarl.demos.factorial.distributed
 
 import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
-import io.sarl.core.Destroy
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
 
@@ -37,25 +36,24 @@ skill BasicConsoleLogging implements Logging {
 agent FactorialQueryAgent {
 	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions
 	
+	var factValue : int
+	
 	on Initialize {
+		factValue = new Integer(occurrence.parameters.get(0) as String)
 		setSkill(Logging,new BasicConsoleLogging());
-		info("Query sent with number 5")
-		emit(new Calculate=>[number=5])
+		info("Query sent with number "+factValue)
+		emit(new Calculate=>[number=factValue])
 	}
 		
 	on ComputationDone {
-		info("Query: Result of Factorial 5 is "+occurrence.result)
+		info(factValue+"! = "+occurrence.result)
 		killMe
-	}
-	
-	on Destroy {
-		debug("Query: I'm ready to die") 
 	}
 }
 
 agent FactorialAgent {
 	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions
-	var upto : Integer = 10
+	var upto : Integer
 	  
 	on Initialize {		
 		setSkill(Logging,new BasicConsoleLogging());
@@ -76,10 +74,6 @@ agent FactorialAgent {
 		this.upto  = new Integer(occurrence.number);
 		info("Received Calculate for " + this.upto)   
 		wake(new Factorial => [ number = 0 ; value = 1 ])
-	}
-	
-	on Destroy {
-		debug("Factorial: I'm ready to die") 
 	}
 }
 

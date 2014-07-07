@@ -1,12 +1,11 @@
 package io.sarl.demos.schedule
+
 import io.sarl.core.Schedules
 import io.sarl.core.Behaviors
 import io.sarl.core.Lifecycle
 
 import io.sarl.core.Initialize
 import java.util.concurrent.atomic.AtomicInteger
-
-//import io.sarl.util.TimerScheduler
 
 event Die
 

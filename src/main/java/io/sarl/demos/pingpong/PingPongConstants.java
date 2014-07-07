@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-package io.sarl.demos.basic;
+package io.sarl.demos.pingpong;
 
 import java.util.UUID;
 

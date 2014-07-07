@@ -1,4 +1,4 @@
-package io.sarl.demos.basic
+package io.sarl.demos.pingpong.subcontext
 
 import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
@@ -7,6 +7,7 @@ import io.sarl.core.Initialize
 import io.sarl.core.InnerContextAccess
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
+import io.sarl.demos.pingpong.PingPongConstants
 import io.sarl.lang.core.Address
 import io.sarl.lang.core.SpaceID
 import io.sarl.util.OpenEventSpace

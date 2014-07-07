@@ -1,4 +1,4 @@
-package io.sarl.demos.basic
+package io.sarl.demos.basic.helloworld
 
 import io.sarl.core.Initialize
 import io.sarl.core.Destroy
@@ -18,7 +18,6 @@ agent HelloAgent{
 		System.out.println("Hello World!")
 		in(2000)[
 			killMe
-			System.out.println("I'am killed! But this message should not appear!")
 		]
 	} 
 	

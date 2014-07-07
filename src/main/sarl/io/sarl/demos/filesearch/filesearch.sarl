@@ -41,7 +41,12 @@ event Stop
 agent SearchCommanderAgent {
 	uses Behaviors, Lifecycle, DefaultContextInteractions, InnerContextAccess,Schedules
 	on Initialize {
-		emit(new Search=>[fileMatch=".sarl";date=new Date()])
+		var ext = if (occurrence.parameters.empty) "" else occurrence.parameters.get(0)
+		if (ext=="") {
+			ext = ".sarl"
+		}
+		val cExt = ext?.toString
+		emit(new Search=>[fileMatch=cExt;date=new Date()])
 		println("SearchCommander initialized")
 	}
 	

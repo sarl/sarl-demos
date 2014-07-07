@@ -14,7 +14,7 @@ event Count{
  * This is a companion Agent for the web sniffer demo.
  * It only emits periodic event on the Default Space of Default Context
  */
-agent Ticker{
+agent Ticker {
 	uses DefaultContextInteractions, Schedules,Lifecycle
 	
 	val secs : AtomicInteger = new AtomicInteger

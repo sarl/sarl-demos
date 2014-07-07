@@ -1,4 +1,4 @@
-package io.sarl.demos.basic
+package io.sarl.demos.basic.inheritance
 
 import io.sarl.core.Initialize
 import io.sarl.core.Destroy

@@ -14,6 +14,11 @@ Considering the variety of existing approaches and meta-models in the field of a
 
 However, we provide a first set of tools to support its execution based on the new version 2.0 of the Janus (see http://www.janusproject.io) platform, but it can be linked with other existing agent platforms and frameworks. 
 
+Launching the Demos
+===================
+
+Each demo in the `src` folder is associated to a README file
+that explains the principle of the demo, and how to run it.
 
 License
 =======
