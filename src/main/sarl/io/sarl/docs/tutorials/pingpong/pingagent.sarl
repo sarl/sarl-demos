@@ -3,7 +3,7 @@ package io.sarl.docs.tutorials.pingpong
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.core.Schedules
-import io.sarl.util.AddressScope
+import io.sarl.util.Scopes
 
 agent PingAgent {
 
@@ -12,7 +12,7 @@ agent PingAgent {
 	on Pong {
 		emit(
 			new Ping( occurrence.index + 1 ),
-			AddressScope.getScope( occurrence.source )
+			Scopes.addresses( occurrence.source )
 		)
 	}
 

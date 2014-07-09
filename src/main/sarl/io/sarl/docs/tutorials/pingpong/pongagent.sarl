@@ -1,7 +1,7 @@
 package io.sarl.docs.tutorials.pingpong
 
 import io.sarl.core.DefaultContextInteractions
-import io.sarl.util.AddressScope
+import io.sarl.util.Scopes
 
 agent PongAgent {
 	
@@ -11,7 +11,7 @@ agent PongAgent {
 		
 		emit(
 			new Pong( occurrence.index ),
-			AddressScope.getScope( occurrence.source )
+			Scopes.addresses( occurrence.source )
 		)
 		
 	}
