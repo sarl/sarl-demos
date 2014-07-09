@@ -18,8 +18,8 @@
 		<copyrighters>Sebastian RODRIGUEZ, Nicolas GAUD, Stéphane GALLAND</copyrighters>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<compiler.level>1.7</compiler.level>
-		<sarl.version>0.1.0-SNAPSHOT</sarl.version>
-		<janus.version>2.0.1.0-SNAPSHOT</janus.version>
+		<sarl.version.range>[0.1.0-SNAPSHOT, 0.2.0-SNAPSHOT)</sarl.version.range>
+		<janus.version.range>[2.0.1.0-SNAPSHOT, 2.0.2.0-SNAPSHOT)</janus.version.range>
 		<xtext.version>2.6.2</xtext.version>
 		<guice.version>4.0-beta4</guice.version>
 	</properties>
@@ -50,7 +50,7 @@
 			<dependency>
 				<groupId>io.janusproject</groupId>
 				<artifactId>io.janusproject.kernel</artifactId>
-				<version>${janus.version}</version>
+				<version>${janus.version.range}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -309,12 +309,12 @@
 					<dependency>
 						<groupId>io.sarl.lang</groupId>
 						<artifactId>io.sarl.lang</artifactId>
-						<version>${sarl.version}</version>
+						<version>${sarl.version.range}</version>
 					</dependency>
 					<dependency>
 						<groupId>io.sarl.lang</groupId>
 						<artifactId>io.sarl.lang.core</artifactId>
-						<version>${sarl.version}</version>
+						<version>${sarl.version.range}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
