@@ -1,0 +1,59 @@
+package io.sarl.docs.tutorials.holonicauction
+
+import io.sarl.core.Initialize
+import io.sarl.core.InnerContextAccess
+import io.sarl.lang.core.Address
+import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
+import io.sarl.core.Behaviors
+
+agent Auctioneer {
+					
+	uses Behaviors, InnerContextAccess, Lifecycle, Schedules
+	
+	var maxBid = 0f
+	var winner : Address
+	var hasBid = false 
+	var isAuctionOpened = true
+	
+	on Initialize {
+		for(i : 1..3) {
+			spawnInContext(Bidder, innerContext)
+		}
+		
+		wake(new Price(50))
+		
+		every(10000) [
+			synchronized(this) {
+				if (!isAuctionOpened) {
+					if (!hasMemberAgent) {
+						killMe
+					}
+				} else {
+					if (!hasBid) {
+						isAuctionOpened = false
+						if (winner === null) {
+							println("No winner")
+						} else {
+							println("The winner is " + winner
+								+ " with the bid of " + maxBid)
+						}
+						wake(new StopAuction)
+					}
+					hasBid = false
+				}
+			}
+		]
+	}
+		
+	on Bid [ isAuctionOpened ] {
+		synchronized(this) {
+			hasBid = true
+			if (occurrence.value > maxBid) {
+				maxBid = occurrence.value
+				winner = occurrence.source
+			}
+		}
+	}
+
+}

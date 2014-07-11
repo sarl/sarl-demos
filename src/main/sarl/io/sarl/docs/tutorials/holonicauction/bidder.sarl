@@ -1,0 +1,36 @@
+package io.sarl.docs.tutorials.holonicauction
+
+import java.util.Random
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.core.Lifecycle
+import io.sarl.core.Initialize
+import io.sarl.util.Scopes
+
+agent Bidder {
+	
+	uses DefaultContextInteractions, Lifecycle
+	
+	val random = new Random()
+	var maxPrice : float
+	
+	on Initialize {
+		maxPrice = random.nextFloat() * 1000f + 100f
+	}
+	
+	on Price {
+		var priceIncrease = random.nextFloat() * 50f
+		if (priceIncrease > 0) {
+			var newPrice = occurrence.price + priceIncrease
+			if (newPrice <= maxPrice) {
+				var superScope = Scopes.addresses(
+					defaultSpace.getAddress(defaultContext.ID))
+				emit(new Bid(newPrice), superScope)
+			}
+		}
+	}
+	
+	on StopAuction {
+		killMe
+	}
+	
+}
