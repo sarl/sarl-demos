@@ -14,14 +14,18 @@ agent Bidder {
 	var maxPrice : float
 	
 	on Initialize {
+		println("Bidder created")
 		maxPrice = random.nextFloat() * 1000f + 100f
 	}
 	
 	on Price {
+		println("Receiving the price: " + occurrence.price)
 		var priceIncrease = random.nextFloat() * 50f
 		if (priceIncrease > 0) {
 			var newPrice = occurrence.price + priceIncrease
+			println("My new price is: " + newPrice)
 			if (newPrice <= maxPrice) {
+				println("Send my bid: " + newPrice)
 				var superScope = Scopes.addresses(
 					defaultSpace.getAddress(defaultContext.ID))
 				emit(new Bid(newPrice), superScope)
@@ -30,6 +34,7 @@ agent Bidder {
 	}
 	
 	on StopAuction {
+		println("Auctioneer wants to kill me")
 		killMe
 	}
 	

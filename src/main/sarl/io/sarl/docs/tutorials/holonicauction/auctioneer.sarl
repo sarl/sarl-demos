@@ -15,41 +15,62 @@ agent Auctioneer {
 	var winner : Address
 	var hasBid = false 
 	var isAuctionOpened = true
-	
+
 	on Initialize {
+		println("Creating bidders")
 		for(i : 1..3) {
-			spawnInContext(Bidder, innerContext)
+			spawnInContext(typeof(Bidder), innerContext)
 		}
 		
+		println("Propose initial price: 50")
 		wake(new Price(50))
 		
-		every(10000) [
-			synchronized(this) {
-				if (!isAuctionOpened) {
-					if (!hasMemberAgent) {
-						killMe
-					}
-				} else {
-					if (!hasBid) {
-						isAuctionOpened = false
-						if (winner === null) {
-							println("No winner")
-						} else {
-							println("The winner is " + winner
-								+ " with the bid of " + maxBid)
+		in(10000) [
+			val waitTask = task("wait-task")
+			waitTask.every(10000) [
+				synchronized(this) {
+					if (!isAuctionOpened) {
+						println("No more action: waiting for bidder death.")
+						if (!hasMemberAgent) {
+							killMe
+							waitTask.cancel
 						}
-						wake(new StopAuction)
+					} else {
+						if (!hasBid) {
+							println("NO MORE BID")
+							isAuctionOpened = false
+							if (winner === null) {
+								println("No winner")
+							} else {
+								println("The winner is " + winner
+									+ " with the bid of " + maxBid)
+							}
+							println("Killing the bidders")
+							wake(new StopAuction)
+						}
+						else {
+							var newPrice : float
+							if (winner === null) {
+								newPrice = 50
+							} else {
+								newPrice = maxBid
+							}
+							println("NEXT BIDDING TURN: " + newPrice)
+							wake(new Price(newPrice))
+						}
+						hasBid = false
 					}
-					hasBid = false
 				}
-			}
+			]
 		]
 	}
 		
 	on Bid [ isAuctionOpened ] {
+		println("Receiving bid: " + occurrence.value)
 		synchronized(this) {
 			hasBid = true
 			if (occurrence.value > maxBid) {
+				println("    better bid")
 				maxBid = occurrence.value
 				winner = occurrence.source
 			}
