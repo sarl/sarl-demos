@@ -21,7 +21,7 @@ Type the following command line:
 
 > mvn exec:java
 >     -Dexec.mainClass=io.janusproject.Boot
->     -Dexec.args=io.sarl.demos.factorial.FactorialAgent 5
+>     -Dexec.args=io.sarl.demos.factorial.basic.FactorialAgent 5
 
 The value `5` is the first parameter, and the agent is
 computing `5!`.

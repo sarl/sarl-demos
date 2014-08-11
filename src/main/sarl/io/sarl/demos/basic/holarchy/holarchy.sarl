@@ -7,7 +7,7 @@ import io.sarl.core.Initialize
 import io.sarl.core.InnerContextAccess
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
-import io.janusproject.services.agentplatform.ContextSpaceService
+import io.janusproject.services.contextspace.ContextSpaceService
 
 event HolarchyDestroyed
 

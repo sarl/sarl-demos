@@ -1,0 +1,35 @@
+package io.sarl.docs.tutorials.pingpongspace
+
+import io.sarl.core.DefaultContextInteractions
+import io.sarl.util.Scopes
+import io.sarl.util.OpenEventSpace
+import io.sarl.core.Initialize
+import io.sarl.util.OpenEventSpaceSpecification
+import io.sarl.core.Behaviors
+import java.util.UUID
+
+agent PongAgent {
+	
+	uses DefaultContextInteractions, Behaviors
+	
+	var space : OpenEventSpace
+
+	on Initialize {
+		space = defaultContext.getOrCreateSpace(
+			typeof(OpenEventSpaceSpecification),
+			occurrence.parameters.get(0) as UUID)
+		space.register(asEventListener())
+	}
+	
+	on Ping {
+		println("Receiving Ping #" + occurrence.index)
+		println("Sending Pong #" + occurrence.index)
+		var evt = new Pong( occurrence.index )
+		evt.source = space.getAddress(getID)
+		space.emit(
+			evt,
+			Scopes.addresses( occurrence.source )
+		)
+		
+	}
+}

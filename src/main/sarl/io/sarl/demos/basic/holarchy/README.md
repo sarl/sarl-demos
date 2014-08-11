@@ -29,4 +29,4 @@ instance, type on the command line:
 
 > mvn exec:java
 >     -Dexec.mainClass=io.janusproject.Boot
->     -Dexec.args=io.sarl.demos.basic.holarchy.HolonManager
+>     -Dexec.args=io.sarl.demos.basic.holarchy.HolarchyManager
