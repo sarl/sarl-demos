@@ -19,11 +19,12 @@ agent CounterAgent {
 	val count = new AtomicInteger
  
 	on Initialize {
-		println("INITIALIZE: Start") 
+		println("INITIALIZE: Start")
 		task("test-presence").every(100) [ 
 			if(defaultSpace.participants.size > 1) {
 				println("Waking") 
 				wake(new MyEvent) 
+				
 			}
 			else {
 				println("Number of participants in default space : " + defaultSpace.participants.size)

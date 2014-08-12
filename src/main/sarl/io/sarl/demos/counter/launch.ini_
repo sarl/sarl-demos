@@ -1,0 +1,8 @@
+name = Demo: Countdown
+
+[Agent1]
+name = io.sarl.demos.counter.CounterAgent
+
+[Agent2]
+name = io.sarl.demos.counter.SecondAgent
+wait = 10

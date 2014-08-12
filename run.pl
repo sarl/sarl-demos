@@ -1,12 +1,11 @@
 #!/usr/bin/env perl
 
-use strict;
+use 5.18.0; # include implicit strict syntax
 
 use constant LAUNCH_FILE => 'launch.ini';
 
 use File::Basename;
 use File::Spec;
-use Data::Dumper;
 
 sub find_launch_files($) {
   my $dir = shift || die("invalid directory");
@@ -108,27 +107,34 @@ if ($demonumber) {
   my $nb = int($demonumber) - 1;
   if ($launch_files[$nb] && $launch_data{$launch_files[$nb]}) {
     my $demo = $launch_data{$launch_files[$nb]};
-    print "Launching demo: " . $demo->{'*'}{'name'} . "...\n";
+    print "Compiling and launching demo: " . $demo->{'*'}{'name'} . "\n";
+    if ($demo->{'*'}{'message'}) {
+      print $demo->{'*'}{'message'} . "\n";
+    }
     my @wait_children = ();
     my @killable_children = ();
     my $wait_delay = undef;
+    my %parameters = ();
+    foreach my $agent_key (@{$demo->{'*'}{'sections'}}) {
+      my @agent_parameters = parse_parameters($demo->{$agent_key}{'help'}, $demo->{$agent_key}{'parameters'});
+      $parameters{$agent_key} = \@agent_parameters;
+    }
     foreach my $agent_key (@{$demo->{'*'}{'sections'}}) {
       my $agent_name = $demo->{$agent_key}{'name'};
       if ($agent_name) {
         my $agent_autokill = lc($demo->{$agent_key}{'autokill'}||'') eq 'true';
-        my @agent_parameters = parse_parameters($demo->{$agent_key}{'help'}, $demo->{$agent_key}{'parameters'});
         if ($wait_delay) {
           print "> waiting $wait_delay second(s)\n";
           sleep($wait_delay);
           $wait_delay = undef;
         }
         print "> launching $agent_name\n";
-        my $params = join(' ', $agent_name, @agent_parameters);
+        my $params = join(' ', $agent_name, @{$parameters{$agent_key}});
         my @cmd_line = ( 'mvn',
                          '-q',
                          'exec:java',
                          '-Dexec.mainClass=io.janusproject.Boot',
-                         '-Dexec.args='.$params);
+                         '-Dexec.args=-l warning '.$params);
         my $pid = fork();
         if ($pid) {
           if ($agent_autokill) {
@@ -165,19 +171,16 @@ if ($demonumber) {
 }
 
 my $i = 1;
-print "usage: " . basename($0) . " <number>\n\n";
+print "\nUsage:\n\t" . basename($0) . " <number>\n\n";
 print "<number> is one of:\n";
+my $size = length(int(@launch_files));
 foreach my $file (@launch_files) {
   if ($launch_data{$file}) {
-    my $isvalid = lc($launch_data{$file}{'*'}{'valid'} || '') ne 'false';
-    print "$i - " . $launch_data{$file}{'*'}{'name'};
-    if (!$isvalid) {
-      print " (BUGGED)";
-    }
-    print "\n";
+    print $i . (" "x($size-length("$i"))) . " - " . $launch_data{$file}{'*'}{'name'} . "\n";
     $i++;
   }
 }
+print "\n";
 
 exit(255);
 

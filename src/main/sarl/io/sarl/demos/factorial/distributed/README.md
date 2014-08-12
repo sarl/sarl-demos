@@ -29,11 +29,11 @@ Type on the two following command lines in different terminals:
 
 > mvn exec:java
 >     -Dexec.mainClass=io.janusproject.Boot
->     -Dexec.args=io.sarl.demos.counter.FactorialAgent
+>     -Dexec.args=io.sarl.demos.factorial.distributed.FactorialAgent
 
 > mvn exec:java
 >     -Dexec.mainClass=io.janusproject.Boot
->     -Dexec.args=io.sarl.demos.counter.FactorialQueryAgent 5
+>     -Dexec.args=io.sarl.demos.factorial.distributed.FactorialQueryAgent 5
 
 The value `5` is the first parameter, and the agent is
 computing `5!`.

@@ -13,9 +13,14 @@ event Factorial {
 event Calculate { 
 	var number : Integer 
 } 
+
 event ComputationDone { 
 	var result : Integer 
 }
+
+event Hello
+
+event Die
 
 capacity Logging {	
 	def debug(s: String)
@@ -25,28 +30,38 @@ capacity Logging {
 skill BasicConsoleLogging implements Logging {
 	
 	def debug(s: String) {
-		System.out.println("DEBUG:"+s)
+		println("DEBUG:"+s)
 	}
 	
 	def info(s: String)	 {
-		System.out.println("INFO:"+s)
+		println("INFO:"+s)
 	}
 }
 
 agent FactorialQueryAgent {
-	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions
+	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions, Schedules
 	
 	var factValue : int
 	
 	on Initialize {
 		factValue = new Integer(occurrence.parameters.get(0) as String)
 		setSkill(Logging,new BasicConsoleLogging());
+
+		info("Auto-detecting FactorialAgent")
+		task("discovery-task").every(1000) [
+			emit(new Hello)
+		]
+	}
+
+	on Hello [occurrence.source != defaultAddress] {
+		task("discovery-task").cancel
 		info("Query sent with number "+factValue)
 		emit(new Calculate=>[number=factValue])
 	}
 		
 	on ComputationDone {
 		info(factValue+"! = "+occurrence.result)
+		emit(new Die)
 		killMe
 	}
 }
@@ -60,6 +75,10 @@ agent FactorialAgent {
 		info("Factorial initialized")	
 	} 
 
+	on Hello [occurrence.source != defaultAddress] {
+		emit(new Hello)
+	}
+
 	on Factorial [occurrence.number < upto ] {		
 		wake(new Factorial => [ number = occurrence.number + 1 ; value = occurrence.value * (occurrence.number+1) ])
 	}
@@ -67,7 +86,6 @@ agent FactorialAgent {
 	on Factorial [ occurrence.number == upto ] {  
 		info("Factorial of " + upto + " is " + occurrence.value)	
 		emit(new ComputationDone=>[result=occurrence.value])	
-		killMe
 	}
 	
 	on Calculate {
@@ -75,5 +93,10 @@ agent FactorialAgent {
 		info("Received Calculate for " + this.upto)   
 		wake(new Factorial => [ number = 0 ; value = 1 ])
 	}
+
+	on Die {
+		killMe
+	}
+
 }
 
