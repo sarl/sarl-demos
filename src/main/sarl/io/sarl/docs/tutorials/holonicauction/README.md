@@ -1,5 +1,5 @@
-Tutorial: Basic Holons
-======================
+Tutorial: Holonic Auction
+=========================
 
 ## Principle of the Demo
 

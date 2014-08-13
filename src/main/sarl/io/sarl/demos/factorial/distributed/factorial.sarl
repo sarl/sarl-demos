@@ -4,6 +4,7 @@ import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
+import io.sarl.core.Schedules
 
 event Factorial {
 	var number : Integer
@@ -29,12 +30,18 @@ capacity Logging {
 
 skill BasicConsoleLogging implements Logging {
 	
+	val label : String
+
+	new(label : String) {
+		this.label = label
+	}
+
 	def debug(s: String) {
-		println("DEBUG:"+s)
+		println("DEBUG("+label+"): "+s)
 	}
 	
-	def info(s: String)	 {
-		println("INFO:"+s)
+	def info(s: String) {
+		println("INFO("+label+"): "+s)
 	}
 }
 
@@ -42,19 +49,23 @@ agent FactorialQueryAgent {
 	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions, Schedules
 	
 	var factValue : int
+
+	var started = false
 	
 	on Initialize {
 		factValue = new Integer(occurrence.parameters.get(0) as String)
-		setSkill(Logging,new BasicConsoleLogging());
+		setSkill(Logging,new BasicConsoleLogging("Query"));
 
-		info("Auto-detecting FactorialAgent")
+		info("Auto-detecting Factorial")
 		task("discovery-task").every(1000) [
 			emit(new Hello)
 		]
 	}
 
-	on Hello [occurrence.source != defaultAddress] {
+	on Hello [occurrence.source != defaultAddress && !started] {
+		started = true
 		task("discovery-task").cancel
+		info("Found Factorial")
 		info("Query sent with number "+factValue)
 		emit(new Calculate=>[number=factValue])
 	}
@@ -62,6 +73,7 @@ agent FactorialQueryAgent {
 	on ComputationDone {
 		info(factValue+"! = "+occurrence.result)
 		emit(new Die)
+		info("Killing")
 		killMe
 	}
 }
@@ -71,7 +83,7 @@ agent FactorialAgent {
 	var upto : Integer
 	  
 	on Initialize {		
-		setSkill(Logging,new BasicConsoleLogging());
+		setSkill(Logging,new BasicConsoleLogging("Factorial"));
 		info("Factorial initialized")	
 	} 
 
@@ -84,17 +96,18 @@ agent FactorialAgent {
 	}
 
 	on Factorial [ occurrence.number == upto ] {  
-		info("Factorial of " + upto + " is " + occurrence.value)	
+		info(this.upto+"! = "+occurrence.value)	
 		emit(new ComputationDone=>[result=occurrence.value])	
 	}
 	
 	on Calculate {
 		this.upto  = new Integer(occurrence.number);
-		info("Received Calculate for " + this.upto)   
+		info("Query for " + this.upto + "!")
 		wake(new Factorial => [ number = 0 ; value = 1 ])
 	}
 
 	on Die {
+		info("Killing")
 		killMe
 	}
 

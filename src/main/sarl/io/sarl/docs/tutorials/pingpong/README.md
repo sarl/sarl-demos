@@ -1,5 +1,5 @@
-Tutorial: Agent Communication
-=============================
+Tutorial: Agent Communication in Default Space
+==============================================
 
 ## Principle of the Demo
 

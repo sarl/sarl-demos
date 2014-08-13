@@ -7,43 +7,46 @@ import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
 import java.util.concurrent.atomic.AtomicInteger
 
-event MyEvent
+event Hello
 
-event OtherEvent
+event Count
 
 event Die
 
 agent CounterAgent {
+
 	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors
 
 	val count = new AtomicInteger
+
+	var started = false
  
 	on Initialize {
-		println("INITIALIZE: Start")
-		task("test-presence").every(100) [ 
-			if(defaultSpace.participants.size > 1) {
-				println("Waking") 
-				wake(new MyEvent) 
-				
-			}
-			else {
-				println("Number of participants in default space : " + defaultSpace.participants.size)
-			}
+		println("COUNTER: Starting")
+		task("discovery").every(1000) [ 
+			emit(new Hello)
 		]
 	}
 
-	on MyEvent {
-		println("My Event - count " + count.get) 
+	on Hello [ occurrence.source != defaultAddress && !started ] {
+		println("COUNTER: Found another agent => " + occurrence.source)
+		println("COUNTER: I'm " + defaultAddress)
+		started = true
+		task("discovery").cancel
+		println("COUNTER: Starting to count")
+		wake(new Count) 
+	}
+
+	on Count {
+		println("COUNTER: count => " + count.get) 
 		if(count.get == 3) {
+			println("COUNTER: Killing") 
 			emit(new Die) 
-			println("Kill Counter Agent") 
 			killMe
 		} else {
-			println("Scheduling task since count = " + count.get) 
 			in(1000) [ 
 				count.incrementAndGet 
-				wake(new MyEvent) 
-				emit(new OtherEvent) 
+				wake(new Count) 
 			]
 		}
 	}
@@ -51,21 +54,23 @@ agent CounterAgent {
 }
 
 agent SecondAgent {
+
 	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors
 	
 	on Initialize {
-		println("Second Agent init")
-
+		println("PARTNER: Starting")
 	}
 
-	on OtherEvent {
-		println("Received Other Event")
+	on Hello [ occurrence.source != defaultAddress ] {
+		println("PARTNER: Say hello!")
+		emit(new Hello) 
 	}
 
 	on Die {
-		println("Received Die Event- killing myself")
+		println("PARTNER: Killing")
 		killMe
 	}
+
 }
 
 

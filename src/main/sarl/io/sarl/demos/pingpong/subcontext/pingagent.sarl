@@ -1,0 +1,48 @@
+package io.sarl.docs.tutorials.pingpongcontext
+
+import io.sarl.core.ExternalContextAccess
+import io.sarl.core.Initialize
+import io.sarl.core.Schedules
+import io.sarl.util.Scopes
+import io.sarl.core.Behaviors
+import io.sarl.lang.core.AgentContext
+import java.util.UUID
+
+agent PingAgent {
+
+	uses ExternalContextAccess, Schedules, Behaviors
+
+	var context : AgentContext
+
+	on Initialize {
+		var cID = occurrence.parameters.get(0) as UUID
+		var sID = occurrence.parameters.get(1) as UUID
+		join(cID, sID)
+		context = getContext(cID)
+
+		println("Waiting for Pong Agent")
+		val task = task("waiting_for_partner")
+		task.every(1000) [
+			if (context.defaultSpace.participants.size > 1) {
+				println("Pong Agent detected.")
+				println("Sending Ping #0")
+				var evt = new Ping(0)
+				evt.source = context.defaultSpace.getAddress(getID())
+				context.defaultSpace.emit( evt )
+				task.cancel
+			}
+		]
+	}
+
+	on Pong {
+		println("Receiving Pong #" + occurrence.index)
+		println("Sending Ping #" + (occurrence.index + 1))
+		var evt = new Ping( occurrence.index + 1 )
+		evt.source = context.defaultSpace.getAddress(getID())
+		context.defaultSpace.emit(
+			evt,
+			Scopes.addresses( occurrence.source )
+		)
+	}
+
+}

@@ -1,5 +1,5 @@
-Tutorial: Agent Communication
-=============================
+Tutorial: Agent Communication in Subspace
+=========================================
 
 ## Principle of the Demo
 
@@ -10,6 +10,8 @@ The principle of the application is the following:
 * The Ping agent is receiving a Pong message and replies to the sender of the Pong with a new Ping message.
 
 These messages contains an integer number that indicates the number of the event.
+
+The messages are exchanged into a subspace of the default context.
 
 ## Compiling the Demo using Maven
 

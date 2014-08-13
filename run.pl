@@ -3,9 +3,11 @@
 use 5.18.0; # include implicit strict syntax
 
 use constant LAUNCH_FILE => 'launch.ini';
+use constant KILL_TIMEOUT => 10;
 
 use File::Basename;
 use File::Spec;
+use POSIX ":sys_wait_h";
 
 sub find_launch_files($) {
   my $dir = shift || die("invalid directory");
@@ -41,7 +43,7 @@ sub parse_launch_file($\%) {
   my @sections = ();
   while (my $line = <FILE>) {
     $line =~ s/^\s+//s;
-    $line =~ s/\s+$//s;
+    $line =~ s/\s*(\;.*)?$//s;
     if ($line =~ /^\[([a-zA-Z0-9_]+?)\]$/) {
       $section = $1;
       push @sections, $section;
@@ -65,6 +67,11 @@ sub parse_launch_file($\%) {
   }
 }
 
+sub make_string_param($) {
+  my $s = shift || '';
+  return "'$s'";
+}
+
 sub parse_parameters($$) {
   my $help = shift || '';
   my @parameters = ();
@@ -84,7 +91,15 @@ sub parse_parameters($$) {
           die("A value is missed on the command line.\n$help\n");
         }
         my $value = shift @ARGV;
-	push @parameters, "\"$value\"";
+	push @parameters, make_string_param($value);
+      }
+      elsif ($p eq 'f') {
+        if (!@ARGV) {
+          die("A value is missed on the command line.\n$help\n");
+        }
+        my $value = shift @ARGV;
+	$value = File::Spec->canonpath($value);
+	push @parameters, make_string_param($value);
       }
       else {
         die("invalid parameter type character: $p\n");
@@ -130,11 +145,12 @@ if ($demonumber) {
         }
         print "> launching $agent_name\n";
         my $params = join(' ', $agent_name, @{$parameters{$agent_key}});
+        print "> params: $params\n";
         my @cmd_line = ( 'mvn',
                          '-q',
                          'exec:java',
                          '-Dexec.mainClass=io.janusproject.Boot',
-                         '-Dexec.args=-l warning '.$params);
+                         '-Dexec.args=-l warning -nologo '.$params);
         my $pid = fork();
         if ($pid) {
           if ($agent_autokill) {
@@ -142,9 +158,6 @@ if ($demonumber) {
           }
           else {
             push @wait_children, $pid;
-          }
-          if ($demo->{$agent_key}{'wait'}) {
-            $wait_delay = int($demo->{$agent_key}{'wait'});
           }
 	}
         else {
@@ -157,8 +170,23 @@ if ($demonumber) {
     foreach my $pid (@wait_children) {
       waitpid($pid, 0);
     }
-    foreach my $pid (@killable_children) {
-      kill -9, $pid or print STDERR "Unable to kill child process: $!\n";
+    if (@killable_children) {
+      print "> waiting ".KILL_TIMEOUT." seconds for autokillable subprocesses...\n";
+      my $kill_timeout = int(time()) + KILL_TIMEOUT;
+      do {
+        my @just_killed = ();
+        foreach my $pid (@killable_children) {
+          $pid = waitpid(-1, WNOHANG);
+          if ($pid>0) {
+            push @just_killed, $pid;
+          }
+        }
+        @killable_children = @just_killed;
+      } while(@killable_children && (int(time()) <= $kill_timeout));
+      print "> killing subprocesses...\n";
+      foreach my $pid (@killable_children) {
+        kill -9, $pid;
+      }
     }
     print "> demo is terminated.\n";
     exit(0);
@@ -171,16 +199,16 @@ if ($demonumber) {
 }
 
 my $i = 1;
-print "\nUsage:\n\t" . basename($0) . " <number>\n\n";
-print "<number> is one of:\n";
+print STDERR "\nUsage:\n\t" . basename($0) . " <number> [demo parameter...]\n\n";
+print STDERR "<number> is one of:\n";
 my $size = length(int(@launch_files));
 foreach my $file (@launch_files) {
   if ($launch_data{$file}) {
-    print $i . (" "x($size-length("$i"))) . " - " . $launch_data{$file}{'*'}{'name'} . "\n";
+    print STDERR $i . (" "x($size-length("$i"))) . " - " . $launch_data{$file}{'*'}{'name'} . "\n";
     $i++;
   }
 }
-print "\n";
+print STDERR "\n";
 
 exit(255);
 

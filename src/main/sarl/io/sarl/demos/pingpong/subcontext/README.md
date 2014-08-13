@@ -1,18 +1,17 @@
-Demo: Distributed Factorial
-===========================
+Tutorial: Agent Communication in Subcontext
+===========================================
 
 ## Principle of the Demo
 
 The principle of the application is the following:
 
-* The Ping agent is sending a Ping message to all agents.
+* The Ping agent is sending a Ping message to all agents in a specific space.
 * The Pong agent is receiving the Ping message, and replies with a Pong message to the sender of the Ping message.
 * The Ping agent is receiving a Pong message and replies to the sender of the Pong with a new Ping message.
 
 These messages contains an integer number that indicates the number of the event.
 
-**All the messages are exchanged into a specific space of the inner context of an agent of type SubcontextPongAgent.** The ID of the default is given in the
-`io.sarl.demos.pingpong.PingPongConstants` Java class.
+The messages are exchanged into the default space of a subcontext.
 
 ## Compiling the Demo using Maven
 
@@ -23,15 +22,9 @@ line:
 
 ## Launching the Demo
 
-For launching the demo, you need to launch two agents
-in two different Janus runtime environments.
-Type on the two following command lines in different terminals
-(the order of the command lines is important):
+For launching the demo in a single Janus runtime environment
+instance, type on the command line:
 
 > mvn exec:java
 >     -Dexec.mainClass=io.janusproject.Boot
->     -Dexec.args=io.sarl.demos.pingpong.subcontext.SubcontextPingAgent
-
-> mvn exec:java
->     -Dexec.mainClass=io.janusproject.Boot
->     -Dexec.args=io.sarl.demos.pingpong.subcontext.SubcontextPongAgent
+>     -Dexec.args=io.sarl.docs.tutorials.pingpongcontext.BootAgent

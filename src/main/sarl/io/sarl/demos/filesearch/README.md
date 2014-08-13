@@ -38,7 +38,7 @@ For the commanding agent:
 
 > mvn exec:java
 >     -Dexec.mainClass=io.janusproject.Boot
->     -Dexec.args=io.sarl.demos.filesearch.SearchCommanderAgent ".txt"
+>     -Dexec.args=io.sarl.demos.filesearch.SearchCommanderAgent .txt
 
 The parameter `.txt` is the filename extension of the files 
 that are matching during the search.

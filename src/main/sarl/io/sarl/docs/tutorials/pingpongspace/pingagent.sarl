@@ -20,7 +20,7 @@ agent PingAgent {
 		println("Sending Ping #" + (occurrence.index + 1))
 		var evt = new Ping( occurrence.index + 1 )
 		evt.source = space.getAddress(getID())
-		emit(
+		space.emit(
 			evt,
 			Scopes.addresses( occurrence.source )
 		)
@@ -40,7 +40,7 @@ agent PingAgent {
 				println("Sending Ping #0")
 				var evt = new Ping(0)
 				evt.source = space.getAddress(getID())
-				emit( evt )
+				space.emit( evt )
 				task.cancel
 			}
 		]
