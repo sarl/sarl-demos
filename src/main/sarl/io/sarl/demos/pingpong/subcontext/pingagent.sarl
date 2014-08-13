@@ -1,4 +1,4 @@
-package io.sarl.docs.tutorials.pingpongcontext
+package io.sarl.demos.pingpong.subcontext
 
 import io.sarl.core.ExternalContextAccess
 import io.sarl.core.Initialize

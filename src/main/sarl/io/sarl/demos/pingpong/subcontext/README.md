@@ -27,4 +27,4 @@ instance, type on the command line:
 
 > mvn exec:java
 >     -Dexec.mainClass=io.janusproject.Boot
->     -Dexec.args=io.sarl.docs.tutorials.pingpongcontext.BootAgent
+>     -Dexec.args=io.sarl.demos.pingpong.subcontext.BootAgent

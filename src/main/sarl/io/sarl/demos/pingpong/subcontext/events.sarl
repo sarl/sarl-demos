@@ -1,4 +1,4 @@
-package io.sarl.docs.tutorials.pingpongcontext
+package io.sarl.demos.pingpong.subcontext
 
 event Ping {
 	
