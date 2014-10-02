@@ -21,7 +21,6 @@
 		<sarl.version.range>[0.1.0-SNAPSHOT, 0.2.0-SNAPSHOT)</sarl.version.range>
 		<janus.version.range>[2.0.1.0-SNAPSHOT, 2.0.2.0-SNAPSHOT)</janus.version.range>
 		<xtext.version>2.7.2</xtext.version>
-		<guice.version>4.0-beta4</guice.version>
 	</properties>
 
 	<!-- ======================================= -->
@@ -42,26 +41,6 @@
 	</licenses>
 
 	<!-- ======================================= -->
-	<!-- ==== Dependency Management === -->
-	<!-- ======================================= -->
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>io.janusproject</groupId>
-				<artifactId>io.janusproject.kernel</artifactId>
-				<version>${janus.version.range}</version>
-			</dependency>
-			<dependency>
-				<groupId>io.sarl.maven</groupId>
-				<artifactId>io.sarl.maven.sdk</artifactId>
-				<version>${sarl.version.range}</version>
-				<type>pom</type>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<!-- ======================================= -->
 	<!-- ==== Dependency Definition === -->
 	<!-- ======================================= -->
 
@@ -69,12 +48,8 @@
 		<dependency>
 			<groupId>io.janusproject</groupId>
 			<artifactId>io.janusproject.kernel</artifactId>
+			<version>${janus.version.range}</version>
 		</dependency>
-			<dependency>
-				<groupId>io.sarl.maven</groupId>
-				<artifactId>io.sarl.maven.sdk</artifactId>
-				<type>pom</type>
-			</dependency>
 	</dependencies>
 
 	<!-- ======================================= -->
@@ -94,61 +69,6 @@
 
 		<pluginManagement>
 			<plugins>
-
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>build-helper-maven-plugin</artifactId>
-					<version>1.8</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-clean-plugin</artifactId>
-					<version>2.5</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.eclipse.xtext</groupId>
-					<artifactId>xtext-maven-plugin</artifactId>
-					<version>${xtext.version}</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.eclipse.xtend</groupId>
-					<artifactId>xtend-maven-plugin</artifactId>
-					<version>${xtext.version}</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>license-maven-plugin</artifactId>
-					<version>1.7</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.1</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.6</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.jasig.maven</groupId>
-					<artifactId>maven-notice-plugin</artifactId>
-					<version>1.0.6.1</version>
-				</plugin>
-
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-assembly-plugin</artifactId>
-					<version>2.4</version>
-				</plugin>
-
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
@@ -253,7 +173,6 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
-
 			</plugins>
 		</pluginManagement>
 
@@ -261,6 +180,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.9</version>
 				<executions>
 					<execution>
 						<goals>
@@ -279,6 +199,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-clean-plugin</artifactId>
+				<version>2.6</version>
 				<executions>
 					<execution>
 						<phase>clean</phase>
@@ -301,6 +222,7 @@
 			<plugin>
 				<groupId>org.eclipse.xtext</groupId>
 				<artifactId>xtext-maven-plugin</artifactId>
+				<version>${xtext.version}</version>
 				<executions>
 					<execution>
 						<goals>
@@ -334,12 +256,18 @@
 						<artifactId>io.sarl.lang.core</artifactId>
 						<version>${sarl.version.range}</version>
 					</dependency>
+			 		<dependency> 
+			 			<groupId>org.eclipse</groupId> 
+			 			<artifactId>osgi</artifactId> 
+						<version>3.10.0-v20140606-1445</version>
+			 		</dependency> 
 				</dependencies>
 			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -366,6 +294,7 @@
 			<plugin>
 				<groupId>org.jasig.maven</groupId>
 				<artifactId>maven-notice-plugin</artifactId>
+				<version>1.0.6.1</version>
 				<configuration>
 					<generateChildNotices>true</generateChildNotices>
 					<noticeTemplate>licenses/NOTICE.template</noticeTemplate>
@@ -388,6 +317,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
 				<configuration>
 					<source>${compiler.level}</source>
 					<target>${compiler.level}</target>
@@ -398,6 +328,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>license-maven-plugin</artifactId>
+					<version>1.7</version>
 				<configuration>
 					<verbose>false</verbose>
 					<addSvnKeyWords>false</addSvnKeyWords>
@@ -433,6 +364,7 @@
 				<!-- to create a jar with all dependencies -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
 				<configuration>
 					<descriptors>
 						<descriptor>with-dependencies.xml</descriptor>
@@ -522,17 +454,6 @@
 
 	<repositories>
 		<repository>
-			<id>io.sarl.maven</id>
-			<name>SARL Repository</name>
-			<url>http://maven.sarl.io/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-		<repository>
 			<id>io.janusproject.maven</id>
 			<name>Janus Repository</name>
 			<url>http://maven.janusproject.io/</url>
@@ -546,18 +467,7 @@
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
-			<id>io.sarl.maven</id>
-			<name>SARL Repository</name>
-			<url>http://maven.sarl.io/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-		<pluginRepository>
-			<id>io.janusproject.maven</id>
+			<id>io.janus.maven</id>
 			<name>Janus Repository</name>
 			<url>http://maven.janusproject.io/</url>
 			<snapshots>
