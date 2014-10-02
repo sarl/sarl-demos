@@ -20,7 +20,7 @@
 		<compiler.level>1.7</compiler.level>
 		<sarl.version.range>[0.1.0-SNAPSHOT, 0.2.0-SNAPSHOT)</sarl.version.range>
 		<janus.version.range>[2.0.1.0-SNAPSHOT, 2.0.2.0-SNAPSHOT)</janus.version.range>
-		<xtext.version>2.6.2</xtext.version>
+		<xtext.version>2.7.2</xtext.version>
 		<guice.version>4.0-beta4</guice.version>
 	</properties>
 
@@ -52,6 +52,12 @@
 				<artifactId>io.janusproject.kernel</artifactId>
 				<version>${janus.version.range}</version>
 			</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.sdk</artifactId>
+				<version>${sarl.version.range}</version>
+				<type>pom</type>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -64,6 +70,11 @@
 			<groupId>io.janusproject</groupId>
 			<artifactId>io.janusproject.kernel</artifactId>
 		</dependency>
+			<dependency>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>io.sarl.maven.sdk</artifactId>
+				<type>pom</type>
+			</dependency>
 	</dependencies>
 
 	<!-- ======================================= -->
