@@ -18,9 +18,8 @@
 		<copyrighters>Sebastian RODRIGUEZ, Nicolas GAUD, Stéphane GALLAND</copyrighters>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<compiler.level>1.7</compiler.level>
-		<sarl.version.range>[0.1.0-SNAPSHOT, 0.2.0-SNAPSHOT)</sarl.version.range>
+		<sarl.version>0.1.0-SNAPSHOT</sarl.version>
 		<janus.version.range>[2.0.1.0-SNAPSHOT, 2.0.2.0-SNAPSHOT)</janus.version.range>
-		<xtext.version>2.7.2</xtext.version>
 	</properties>
 
 	<!-- ======================================= -->
@@ -80,43 +79,6 @@
 							<pluginExecutions>
 								<pluginExecution>
 									<pluginExecutionFilter>
-										<groupId>org.eclipse.xtext</groupId>
-										<artifactId>xtext-maven-plugin</artifactId>
-										<versionRange>
-											[2.2.0,)
-										</versionRange>
-										<goals>
-											<goal>compile</goal>
-											<goal>testCompile</goal>
-											<goal>generate</goal>
-											<goal>generate-sources</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.codehaus.mojo
-										</groupId>
-										<artifactId>
-											build-helper-maven-plugin
-										</artifactId>
-										<versionRange>
-											[1.8,)
-										</versionRange>
-										<goals>
-											<goal>add-source</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
 										<groupId>org.codehaus.mojo</groupId>
 										<artifactId>license-maven-plugin</artifactId>
 										<versionRange>[1.2,)</versionRange>
@@ -124,32 +86,6 @@
 											<goal>check-file-header</goal>
 											<goal>update-project-license</goal>
 											<goal>update-file-header</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-dependency-plugin</artifactId>
-										<versionRange>[2.4,)</versionRange>
-										<goals>
-											<goal>properties</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore />
-									</action>
-								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>org.apache.maven.plugins</groupId>
-										<artifactId>maven-changes-plugin</artifactId>
-										<versionRange>[2.7,)</versionRange>
-										<goals>
-											<goal>announcement-generate</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
@@ -178,90 +114,14 @@
 
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.9</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/main/sarl</source>
-								<source>src/main/generated-sources/xtend/</source>
-								<source>src/test/generated-sources/xtend/</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>2.6</version>
-				<executions>
-					<execution>
-						<phase>clean</phase>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-						<configuration>
-							<filesets>
-								<fileset>
-									<directory>src/main/generated-sources/xtend</directory>
-								</fileset>
-								<fileset>
-									<directory>src/test/generated-sources/xtend</directory>
-								</fileset>
-							</filesets>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.eclipse.xtext</groupId>
-				<artifactId>xtext-maven-plugin</artifactId>
-				<version>${xtext.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
+				<groupId>io.sarl.maven</groupId>
+				<artifactId>sarl-maven-plugin</artifactId>
+				<version>${sarl.version}</version>
+				<extensions>true</extensions>
 				<configuration>
-					<compilerSourceLevel>${compiler.level}</compilerSourceLevel>
-					<compilerTargetLevel>${compiler.level}</compilerTargetLevel>
-					<encoding>${project.build.sourceEncoding}</encoding>
-					<languages>
-						<language>
-							<setup>io.sarl.lang.SARLStandaloneSetup</setup>
-							<outputConfigurations>
-								<outputConfiguration>
-									<outputDirectory>src/main/generated-sources/xtend/</outputDirectory>
-								</outputConfiguration>
-							</outputConfigurations>
-						</language>
-					</languages>
+					<source>${compiler.level}</source>
+					<target>${compiler.level}</target>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>io.sarl.lang</groupId>
-						<artifactId>io.sarl.lang</artifactId>
-						<version>${sarl.version.range}</version>
-					</dependency>
-					<dependency>
-						<groupId>io.sarl.lang</groupId>
-						<artifactId>io.sarl.lang.core</artifactId>
-						<version>${sarl.version.range}</version>
-					</dependency>
-			 		<dependency> 
-			 			<groupId>org.eclipse</groupId> 
-			 			<artifactId>osgi</artifactId> 
-						<version>3.10.0-v20140606-1445</version>
-			 		</dependency> 
-				</dependencies>
 			</plugin>
 
 			<plugin>
@@ -312,17 +172,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>${compiler.level}</source>
-					<target>${compiler.level}</target>
-					<encoding>${project.build.sourceEncoding}</encoding>
-				</configuration>
 			</plugin>
 
 			<plugin>
@@ -467,7 +316,18 @@
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
-			<id>io.janus.maven</id>
+			<id>io.sarl.maven</id>
+			<name>SARL Repository</name>
+			<url>http://maven.sarl.io/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+		<pluginRepository>
+			<id>io.janusproject.maven</id>
 			<name>Janus Repository</name>
 			<url>http://maven.janusproject.io/</url>
 			<snapshots>
