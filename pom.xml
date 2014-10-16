@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.sarl.demos</groupId>
 	<artifactId>sarl-demos</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.0</version>
 
 	<name>Demos set of the SARL Agent Oriented Programming Language</name>
 	<url>http://www.sarl.io/</url>
@@ -18,8 +18,8 @@
 		<copyrighters>Sebastian RODRIGUEZ, Nicolas GAUD, Stéphane GALLAND</copyrighters>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<compiler.level>1.7</compiler.level>
-		<sarl.version>0.1.0-SNAPSHOT</sarl.version>
-		<janus.version.range>[2.0.1.0-SNAPSHOT, 2.0.2.0-SNAPSHOT)</janus.version.range>
+		<sarl.version>0.1.0</sarl.version>
+		<janus.version.range>[2.0.1.0, 2.0.2.0)</janus.version.range>
 	</properties>
 
 	<!-- ======================================= -->
@@ -127,7 +127,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.6</version>
+				<version>2.7</version>
 				<executions>
 					<execution>
 						<id>copy-resources</id>
@@ -296,49 +296,6 @@
 			</roles>
 		</developer>
 	</developers>
-
-	<!-- =================== -->
-	<!-- ==== Repositories === -->
-	<!-- =================== -->
-
-	<repositories>
-		<repository>
-			<id>io.janusproject.maven</id>
-			<name>Janus Repository</name>
-			<url>http://maven.janusproject.io/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>io.sarl.maven</id>
-			<name>SARL Repository</name>
-			<url>http://maven.sarl.io/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-		<pluginRepository>
-			<id>io.janusproject.maven</id>
-			<name>Janus Repository</name>
-			<url>http://maven.janusproject.io/</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</pluginRepository>
-	</pluginRepositories>
-
 
 	<!-- =================== -->
 	<!-- ==== Deployment === -->
