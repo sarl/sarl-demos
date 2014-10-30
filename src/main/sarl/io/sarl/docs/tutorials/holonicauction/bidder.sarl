@@ -1,41 +1,55 @@
 package io.sarl.docs.tutorials.holonicauction
 
-import java.util.Random
 import io.sarl.core.DefaultContextInteractions
-import io.sarl.core.Lifecycle
 import io.sarl.core.Initialize
+import io.sarl.core.Lifecycle
 import io.sarl.util.Scopes
+import java.util.Random
 
 agent Bidder {
-	
 	uses DefaultContextInteractions, Lifecycle
-	
 	val random = new Random()
 	var maxPrice : float
-	
+	var myLastBid : float
+
 	on Initialize {
 		println("Bidder created")
 		maxPrice = random.nextFloat() * 1000f + 100f
+		println(maxPrice)
+		println()
 	}
-	
+
 	on Price {
-		println("Receiving the price: " + occurrence.price)
-		var priceIncrease = random.nextFloat() * 50f
-		if (priceIncrease > 0) {
-			var newPrice = occurrence.price + priceIncrease
-			println("My new price is: " + newPrice)
-			if (newPrice <= maxPrice) {
-				println("Send my bid: " + newPrice)
-				var superScope = Scopes.addresses(
-					defaultSpace.getAddress(defaultContext.ID))
-				emit(new Bid(newPrice), superScope)
+		if(occurrence.price == myLastBid) {
+			println("I do not bet, I am the winner with :" + myLastBid)
+		} else {
+			if(occurrence.price < maxPrice) {
+				println("Receiving the price: " + occurrence.price)
+				var priceIncrease = random.nextFloat() * 50f
+				if(priceIncrease > 0) {
+					var newPrice = occurrence.price + priceIncrease
+
+					println("My new price is: " + newPrice)
+					if(newPrice <= maxPrice) {
+						println("Send my bid: " + newPrice)
+						var superScope = Scopes.addresses(defaultSpace.getAddress(defaultContext.ID))
+						emit(new Bid(newPrice), superScope)
+						myLastBid = newPrice
+					} else {
+						println(" I give up, this is beyond my resources : " + myLastBid)
+					}
+				}
+			}
+			else {
+				println("I dropped to " + myLastBid)
 			}
 		}
 	}
-	
+
 	on StopAuction {
 		println("Auctioneer wants to kill me")
 		killMe
 	}
-	
+
 }
+
