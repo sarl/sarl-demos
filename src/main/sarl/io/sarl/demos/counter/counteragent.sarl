@@ -6,6 +6,7 @@ import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
 import java.util.concurrent.atomic.AtomicInteger
+import io.sarl.core.Logging
 
 event Hello
 
@@ -15,32 +16,33 @@ event Die
 
 agent CounterAgent {
 
-	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors
+	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors, Logging
 
 	val count = new AtomicInteger
 
 	var started = false
  
 	on Initialize {
-		println("COUNTER: Starting")
+		loggingName = "COUNTER"
+		println("Starting")
 		task("discovery").every(1000) [ 
 			emit(new Hello)
 		]
 	}
 
 	on Hello [ occurrence.source != defaultAddress && !started ] {
-		println("COUNTER: Found another agent => " + occurrence.source)
-		println("COUNTER: I'm " + defaultAddress)
+		println("Found another agent => " + occurrence.source)
+		println("I'm " + defaultAddress)
 		started = true
 		task("discovery").cancel
-		println("COUNTER: Starting to count")
+		println("Starting to count")
 		wake(new Count) 
 	}
 
 	on Count {
-		println("COUNTER: count => " + count.get) 
+		println("count => " + count.get) 
 		if(count.get == 3) {
-			println("COUNTER: Killing") 
+			println("Killing") 
 			emit(new Die) 
 			killMe
 		} else {
@@ -55,29 +57,21 @@ agent CounterAgent {
 
 agent SecondAgent {
 
-	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors
+	uses Lifecycle, Schedules, DefaultContextInteractions, Behaviors, Logging
 	
 	on Initialize {
-		println("PARTNER: Starting")
+		loggingName = "PARTNER"
+		println("Starting")
 	}
 
 	on Hello [ occurrence.source != defaultAddress ] {
-		println("PARTNER: Say hello!")
+		println("Say hello!")
 		emit(new Hello) 
 	}
 
 	on Die {
-		println("PARTNER: Killing")
+		println("Killing")
 		killMe
 	}
 
 }
-
-
-
-
-
-
-
-
-

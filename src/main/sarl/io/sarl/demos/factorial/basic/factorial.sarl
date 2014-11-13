@@ -3,6 +3,7 @@ package io.sarl.demos.factorial.basic
 import io.sarl.core.Behaviors
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
+import io.sarl.core.Logging
 
 event Factorial {
 	var number : Integer
@@ -11,7 +12,8 @@ event Factorial {
 
 agent FactorialAgent {
 	var upto : Integer = 5 
-	uses Lifecycle, Behaviors 
+	
+	uses Lifecycle, Behaviors, Logging 
 	  
 	on Initialize {
 		this.upto  = new Integer(occurrence.parameters.get(0) as String) 

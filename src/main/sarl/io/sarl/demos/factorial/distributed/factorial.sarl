@@ -5,6 +5,7 @@ import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
+import io.sarl.core.Logging
 
 event Factorial {
 	var number : Integer
@@ -23,30 +24,8 @@ event Hello
 
 event Die
 
-capacity Logging {	
-	def debug(s: String)
-	def info(s: String)
-}
-
-skill BasicConsoleLogging implements Logging {
-	
-	val label : String
-
-	new(label : String) {
-		this.label = label
-	}
-
-	def debug(s: String) {
-		println("DEBUG("+label+"): "+s)
-	}
-	
-	def info(s: String) {
-		println("INFO("+label+"): "+s)
-	}
-}
-
 agent FactorialQueryAgent {
-	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions, Schedules
+	uses Lifecycle, Behaviors, DefaultContextInteractions, Schedules, Logging
 	
 	var factValue : int
 
@@ -54,8 +33,6 @@ agent FactorialQueryAgent {
 	
 	on Initialize {
 		factValue = new Integer(occurrence.parameters.get(0) as String)
-		setSkill(Logging,new BasicConsoleLogging("Query"));
-
 		info("Auto-detecting Factorial")
 		task("discovery-task").every(1000) [
 			emit(new Hello)
@@ -83,7 +60,6 @@ agent FactorialAgent {
 	var upto : Integer
 	  
 	on Initialize {		
-		setSkill(Logging,new BasicConsoleLogging("Factorial"));
 		info("Factorial initialized")	
 	} 
 

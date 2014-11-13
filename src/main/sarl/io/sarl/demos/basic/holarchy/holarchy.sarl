@@ -8,25 +8,26 @@ import io.sarl.core.InnerContextAccess
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
 import io.janusproject.services.contextspace.ContextSpaceService
+import io.sarl.core.Logging
 
 event HolarchyDestroyed
 
 agent HolarchyManager {
 	
-	uses Lifecycle, Schedules, DefaultContextInteractions
+	uses Lifecycle, Schedules, DefaultContextInteractions, Logging
 
 	on Initialize {
 		spawn(Holon, #[])
 	}
 	
 	on HolarchyDestroyed {
-		System.out.println("Holarchy destroyed. Waiting awhile to ensure that all pending context destruction is processed.")
+		println("Holarchy destroyed. Waiting awhile to ensure that all pending context destruction is processed.")
 		in(5000) [
 			var s = getSkill(MicroKernelCapacity)
 			var serv = s.getService(ContextSpaceService)
-			System.out.println("Registered contexts are: "+serv.contexts)
+			println("Registered contexts are: "+serv.contexts)
 			for(context : serv.contexts) {
-				System.out.println("Space in context "+context.ID
+				println("Space in context "+context.ID
 					+":" + context.spaces)
 			}
 			killMe
@@ -37,7 +38,7 @@ agent HolarchyManager {
 
 agent Holon{
 	
-	uses Lifecycle, InnerContextAccess, Schedules, DefaultContextInteractions
+	uses Lifecycle, InnerContextAccess, Schedules, DefaultContextInteractions, Logging
 	
 	val depth = 3
 	val childCount = 2
@@ -59,20 +60,20 @@ agent Holon{
  		if (isRoot || count > 0) {
 			count = count - 1
 			for(i : 1..childCount) {
-				System.out.println("Create the child #"+i+" at level "+count)
+				println("Create the child #"+i+" at level "+count)
 				spawnInContext(Holon, innerContext, #[count])
 			}
 			every(1000) [
 				if (innerContext.defaultSpace.participants.size == 1) {
-					System.out.println("No more child: I'm killing myself.")
+					println("No more child: I'm killing myself.")
 					killMe
 				}
 			]
 		}
 		else {
-			System.out.println("As leaf: Waiting awhile before commiting a suicide.")
+			println("As leaf: Waiting awhile before commiting a suicide.")
 			in(10000) [
-				System.out.println("As leaf: I'm killing myself.")
+				println("As leaf: I'm killing myself.")
 				killMe
 			]
 		}

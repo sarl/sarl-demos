@@ -7,10 +7,11 @@ import io.sarl.core.Initialize
 import io.sarl.util.OpenEventSpaceSpecification
 import io.sarl.core.Behaviors
 import java.util.UUID
+import io.sarl.core.Logging
 
 agent PongAgent {
 	
-	uses DefaultContextInteractions, Behaviors
+	uses DefaultContextInteractions, Behaviors, Logging
 	
 	var space : OpenEventSpace
 

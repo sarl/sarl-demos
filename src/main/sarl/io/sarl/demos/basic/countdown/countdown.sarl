@@ -5,28 +5,29 @@ import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
 import java.util.concurrent.atomic.AtomicInteger
+import io.sarl.core.Logging
 
 agent CountDownAgent {
 	
-	uses Lifecycle, Schedules
+	uses Lifecycle, Schedules, Logging
 	
 	val counter = new AtomicInteger(5)
 	
 	on Initialize {
-		System.out.println("Hello World!")
+		println("Hello World!")
 		every(1000) [
-			System.out.println("Wake up!")
+			println("Wake up!")
 		]
 		every(2000) [
 			var v = counter.decrementAndGet;
-			System.out.println("Counter="+v)
+			println("Counter="+v)
 			if (v<=0)
 				killMe
 		]
 	} 
 	
 	on Destroy {
-		System.out.println("Goodbye World!")
+		println("Goodbye World!")
 	}
 
 }

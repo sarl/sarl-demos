@@ -6,10 +6,11 @@ import io.sarl.lang.core.AgentContext
 import io.sarl.core.Initialize
 import io.sarl.core.Behaviors
 import java.util.UUID
+import io.sarl.core.Logging
 
 agent PongAgent {
 	
-	uses ExternalContextAccess, Behaviors
+	uses ExternalContextAccess, Behaviors, Logging
 	
 	var context : AgentContext
 

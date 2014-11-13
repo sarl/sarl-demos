@@ -5,17 +5,18 @@ import io.sarl.core.Destroy
 
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
+import io.sarl.core.Logging
 
 agent AbstractAgent {
 
-	uses Lifecycle
+	uses Lifecycle, Logging
 
 	on Initialize {
-		System.out.println("Hello World in the super agent!")
+		println("Hello World in the super agent!")
 	}
 
 	def sayGoodBye {
-		System.out.println("Goodbye World!")
+		println("Goodbye World!")
 	}
 
 }
@@ -25,15 +26,15 @@ agent AbstractAgent {
  */
 agent HelloChildAgent extends AbstractAgent{
 	
-	uses Schedules
+	uses Schedules, Logging
 	
 	/* Print "Hello World" when spawned and wait 2 seconds before kill itself */
 	on Initialize {
-		System.out.println("Hello World in the child agent!")
+		println("Hello World in the child agent!")
 		in(2000)[
-			System.out.println("Kill myself")
+			println("Kill myself")
 			killMe
-			System.out.println("This message must never be displayed")
+			println("This message must never be displayed")
 		]
 	} 
 

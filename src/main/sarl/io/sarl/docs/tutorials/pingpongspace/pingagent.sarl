@@ -8,10 +8,11 @@ import io.sarl.core.Behaviors
 import io.sarl.util.OpenEventSpace
 import io.sarl.util.OpenEventSpaceSpecification
 import java.util.UUID
+import io.sarl.core.Logging
 
 agent PingAgent {
 
-	uses DefaultContextInteractions, Schedules, Behaviors
+	uses DefaultContextInteractions, Schedules, Behaviors, Logging
 
 	var space : OpenEventSpace
 

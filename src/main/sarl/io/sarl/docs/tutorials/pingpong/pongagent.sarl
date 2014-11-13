@@ -2,10 +2,11 @@ package io.sarl.docs.tutorials.pingpong
 
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.util.Scopes
+import io.sarl.core.Logging
 
 agent PongAgent {
 	
-	uses DefaultContextInteractions
+	uses DefaultContextInteractions, Logging
 	
 	on Ping {
 		println("Receiving Ping #" + occurrence.index)

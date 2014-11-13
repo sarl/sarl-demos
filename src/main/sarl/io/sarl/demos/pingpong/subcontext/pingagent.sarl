@@ -7,10 +7,11 @@ import io.sarl.util.Scopes
 import io.sarl.core.Behaviors
 import io.sarl.lang.core.AgentContext
 import java.util.UUID
+import io.sarl.core.Logging
 
 agent PingAgent {
 
-	uses ExternalContextAccess, Schedules, Behaviors
+	uses ExternalContextAccess, Schedules, Behaviors, Logging
 
 	var context : AgentContext
 

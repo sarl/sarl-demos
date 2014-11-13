@@ -5,10 +5,11 @@ import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Lifecycle
 import io.sarl.core.Initialize
 import io.sarl.util.Scopes
+import io.sarl.core.Logging
 
 agent Bidder {
 	
-	uses DefaultContextInteractions, Lifecycle
+	uses DefaultContextInteractions, Lifecycle, Logging
 	
 	val random = new Random()
 	var maxPrice : float

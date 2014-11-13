@@ -4,10 +4,11 @@ import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.core.Schedules
 import io.sarl.util.Scopes
+import io.sarl.core.Logging
 
 agent PingAgent {
 
-	uses DefaultContextInteractions, Schedules
+	uses DefaultContextInteractions, Schedules, Logging
 
 	on Pong {
 		println("Receiving Pong #" + occurrence.index)

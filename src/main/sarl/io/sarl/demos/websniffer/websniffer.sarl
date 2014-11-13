@@ -5,6 +5,7 @@ import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Schedules
 import io.sarl.core.Lifecycle
 import java.util.concurrent.atomic.AtomicInteger
+import io.sarl.core.Logging
 
 event Count{
 	var count : Integer
@@ -15,7 +16,7 @@ event Count{
  * It only emits periodic event on the Default Space of Default Context
  */
 agent Ticker {
-	uses DefaultContextInteractions, Schedules,Lifecycle
+	uses DefaultContextInteractions, Schedules, Lifecycle, Logging
 	
 	val secs : AtomicInteger = new AtomicInteger
 	

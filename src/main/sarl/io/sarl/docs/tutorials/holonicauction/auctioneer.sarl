@@ -6,10 +6,11 @@ import io.sarl.lang.core.Address
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
 import io.sarl.core.Behaviors
+import io.sarl.core.Logging
 
 agent Auctioneer {
 					
-	uses Behaviors, InnerContextAccess, Lifecycle, Schedules
+	uses Behaviors, InnerContextAccess, Lifecycle, Schedules, Logging
 	
 	var maxBid = 0f
 	var winner : Address
