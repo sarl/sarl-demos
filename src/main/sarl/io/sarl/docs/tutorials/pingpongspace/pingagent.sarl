@@ -28,7 +28,7 @@ agent PingAgent {
 	}
 
 	on Initialize {
-		space = defaultContext.getOrCreateSpace(
+		space = defaultContext.getOrCreateSpaceWithSpec(
 			typeof(OpenEventSpaceSpecification),
 			occurrence.parameters.get(0) as UUID)
 		space.register(asEventListener())
