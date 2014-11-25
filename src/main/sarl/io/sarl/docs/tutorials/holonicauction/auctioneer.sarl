@@ -33,8 +33,8 @@ agent Auctioneer {
 					if (!isAuctionOpened) {
 						println("No more action: waiting for bidder death.")
 						if (!hasMemberAgent) {
-							killMe
 							waitTask.cancel
+							killMe
 						}
 					} else {
 						if (!hasBid) {

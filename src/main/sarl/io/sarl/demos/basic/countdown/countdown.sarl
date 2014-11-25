@@ -21,13 +21,14 @@ agent CountDownAgent {
 		every(2000) [
 			var v = counter.decrementAndGet;
 			println("Counter="+v)
-			if (v<=0)
+			if (v<=0) {
 				killMe
+			}
 		]
 	} 
 	
 	on Destroy {
 		println("Goodbye World!")
 	}
-
+	
 }
