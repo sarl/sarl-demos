@@ -34,7 +34,6 @@ agent HelloChildAgent extends AbstractAgent{
 		in(2000)[
 			println("Kill myself")
 			killMe
-			println("This message must never be displayed")
 		]
 	} 
 
