@@ -1,13 +1,11 @@
 package io.sarl.demos.basic.holarchy
 
-import io.janusproject.kernel.bic.MicroKernelCapacity
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Destroy
 import io.sarl.core.Initialize
 import io.sarl.core.InnerContextAccess
 import io.sarl.core.Lifecycle
 import io.sarl.core.Schedules
-import io.janusproject.services.contextspace.ContextSpaceService
 import io.sarl.core.Logging
 
 event HolarchyDestroyed
@@ -23,13 +21,6 @@ agent HolarchyManager {
 	on HolarchyDestroyed {
 		println("Holarchy destroyed. Waiting awhile to ensure that all pending context destruction is processed.")
 		in(5000) [
-			var s = getSkill(MicroKernelCapacity)
-			var serv = s.getService(ContextSpaceService)
-			println("Registered contexts are: "+serv.contexts)
-			for(context : serv.contexts) {
-				println("Space in context "+context.ID
-					+":" + context.spaces)
-			}
 			killMe
 		]
 	}
@@ -54,7 +45,7 @@ agent Holon{
 		else {
 			isRoot = false
 			count = occurrence.parameters.get(0) as Integer
-			if (count==null) count = 0
+			if (count===null) count = 0
 		}
 		
  		if (isRoot || count > 0) {
