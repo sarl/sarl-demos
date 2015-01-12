@@ -40,7 +40,7 @@ event Stop
 
 
 agent SearchCommanderAgent {
-	uses Behaviors, Lifecycle, DefaultContextInteractions, InnerContextAccess, Schedules, Logging
+	uses DefaultContextInteractions, Logging
 	on Initialize {
 		var ext = if (occurrence.parameters.empty) "" else occurrence.parameters.get(0)
 		if (ext=="") {

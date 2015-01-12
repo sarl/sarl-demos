@@ -1,15 +1,14 @@
 package io.sarl.demos.basic.inheritance
 
-import io.sarl.core.Initialize
 import io.sarl.core.Destroy
-
-import io.sarl.core.Lifecycle
-import io.sarl.core.Schedules
+import io.sarl.core.Initialize
 import io.sarl.core.Logging
+import io.sarl.core.Schedules
+import io.sarl.core.Lifecycle
 
 agent AbstractAgent {
 
-	uses Lifecycle, Logging
+	uses Logging
 
 	on Initialize {
 		println("Hello World in the super agent!")
@@ -26,7 +25,7 @@ agent AbstractAgent {
  */
 agent HelloChildAgent extends AbstractAgent{
 	
-	uses Schedules, Logging
+	uses Logging, Lifecycle, Schedules
 	
 	/* Print "Hello World" when spawned and wait 2 seconds before kill itself */
 	on Initialize {

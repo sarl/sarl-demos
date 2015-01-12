@@ -25,7 +25,7 @@ event Hello
 event Die
 
 agent FactorialQueryAgent {
-	uses Lifecycle, Behaviors, DefaultContextInteractions, Schedules, Logging
+	uses Lifecycle, DefaultContextInteractions, Schedules, Logging
 	
 	var factValue : Long
 

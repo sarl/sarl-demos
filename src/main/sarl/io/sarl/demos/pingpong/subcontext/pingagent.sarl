@@ -2,16 +2,15 @@ package io.sarl.demos.pingpong.subcontext
 
 import io.sarl.core.ExternalContextAccess
 import io.sarl.core.Initialize
-import io.sarl.core.Schedules
-import io.sarl.util.Scopes
-import io.sarl.core.Behaviors
-import io.sarl.lang.core.AgentContext
-import java.util.UUID
 import io.sarl.core.Logging
+import io.sarl.core.Schedules
+import io.sarl.lang.core.AgentContext
+import io.sarl.util.Scopes
+import java.util.UUID
 
 agent PingAgent {
 
-	uses ExternalContextAccess, Schedules, Behaviors, Logging
+	uses ExternalContextAccess, Schedules, Logging
 
 	var context : AgentContext
 

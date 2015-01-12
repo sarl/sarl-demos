@@ -19,7 +19,6 @@ agent Bidder {
 		println("Bidder created")
 		maxPrice = random.nextFloat() * 1000f + 100f
 		println(maxPrice)
-		println()
 	}
 
 	on Price {
