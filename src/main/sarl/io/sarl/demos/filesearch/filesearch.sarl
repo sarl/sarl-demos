@@ -40,15 +40,34 @@ event Stop
 
 
 agent SearchCommanderAgent {
-	uses DefaultContextInteractions, Logging
+	uses DefaultContextInteractions, Lifecycle, Schedules, Logging
 	on Initialize {
 		var ext = if (occurrence.parameters.empty) "" else occurrence.parameters.get(0)
 		if (ext=="") {
 			ext = ".sarl"
 		}
 		val cExt = ext?.toString
-		emit(new Search=>[fileMatch=cExt;date=new Date()])
-		println("SearchCommander initialized")
+		
+		println("Waiting for FileSearch Agent")
+		val task = task("waiting_for_partner")
+		task.every(1000) [
+			if (getDefaultContext().defaultSpace.participants.size > 1) {
+				println("Sending Search")
+				emit(new Search=>[fileMatch=cExt;date=new Date()])
+				every(5000) [
+					val searcherNb = getDefaultContext().defaultSpace.participants.size;
+					if (searcherNb == 1) {
+						println("I'm alone, all others died")
+						killMe						
+					} else {
+						println("Still "+(searcherNb-1)+" holons currently searching...")
+					}
+				]
+			
+				task.cancel
+			}
+		]
+		println("SearchCommander initialized, waiting search results")
 	}
 	
 	on FoundFile{
@@ -80,7 +99,6 @@ agent FileSearchAgent {
 	var cmdAddr : Address
 	
 	on Initialize {  
-		
 		myPath = occurrence.parameters.get(0) as String
 		//wake(new Search =>[minSize=new Integer(occurrence.parameters.get(1) as String)])
 		stayAlive = Boolean.parseBoolean(occurrence.parameters.get(1) as String);
