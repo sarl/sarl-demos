@@ -4,20 +4,20 @@ import io.sarl.core.Behaviors
 import io.sarl.core.DefaultContextInteractions
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
-import io.sarl.core.Schedules
 import io.sarl.core.Logging
+import io.sarl.core.Schedules
 
 event Factorial {
-	var number : Integer
-	var value : Integer
+	var number : Long
+	var value : Long
 } 
 
 event Calculate { 
-	var number : Integer 
+	var number : Long 
 } 
 
 event ComputationDone { 
-	var result : Integer 
+	var result : Long 
 }
 
 event Hello
@@ -27,12 +27,13 @@ event Die
 agent FactorialQueryAgent {
 	uses Lifecycle, DefaultContextInteractions, Schedules, Logging
 	
-	var factValue : int
+	var factValue : Long
 
 	var started = false
 	
 	on Initialize {
-		factValue = new Integer(occurrence.parameters.get(0) as String)
+		factValue = new Long(occurrence.parameters.get(0) as String)
+
 		info("Auto-detecting Factorial")
 		task("discovery-task").every(1000) [
 			emit(new Hello)
@@ -57,7 +58,7 @@ agent FactorialQueryAgent {
 
 agent FactorialAgent {
 	uses Lifecycle, Behaviors, Logging, DefaultContextInteractions
-	var upto : Integer
+	var upto : Long
 	  
 	on Initialize {		
 		info("Factorial initialized")	
@@ -77,9 +78,9 @@ agent FactorialAgent {
 	}
 	
 	on Calculate {
-		this.upto  = new Integer(occurrence.number);
+		this.upto  = new Long(occurrence.number);
 		info("Query for " + this.upto + "!")
-		wake(new Factorial => [ number = 0 ; value = 1 ])
+		wake(new Factorial => [ number = 0l ; value = 1l ])
 	}
 
 	on Die {
