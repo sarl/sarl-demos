@@ -36,7 +36,7 @@ agent HelloChildAgent extends AbstractAgent{
 		]
 	} 
 
-	def sayGoodBye {
+	override sayGoodBye {
 		super.sayGoodBye()
 	}
 	

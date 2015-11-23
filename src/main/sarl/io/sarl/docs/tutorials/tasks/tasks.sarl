@@ -51,7 +51,7 @@ skill JavaCompilation implements TaskExecution {
 	 * @param inputData - collection of input information that are required for running the task.
 	 * @return the success state of the execution
 	 */
-	def runTask(inputData : Object*) : boolean {
+	override runTask(inputData : Object*) : boolean {
 		info("Run the javac compiler on the parameters: " + Arrays.toString(inputData))
 		true
 	}

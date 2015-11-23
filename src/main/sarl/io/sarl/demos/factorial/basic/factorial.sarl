@@ -27,7 +27,7 @@ agent FactorialAgent {
 		}
 	} 
 
-	on Factorial [ occurrence.number < upto ] {
+	on Factorial [ number < upto ] {
 		wake(new Factorial => [ number = occurrence.number + 1 ; value = occurrence.value * (occurrence.number+1) ])
 	}
 
