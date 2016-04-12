@@ -1,0 +1,66 @@
+package io.sarl.demos.basic.behaviors
+
+import io.sarl.core.Behaviors
+import io.sarl.core.Destroy
+import io.sarl.core.Initialize
+import io.sarl.core.Lifecycle
+
+event Factorial {
+	var number : Long
+	var value : Long
+} 
+event BehaviorInitialize {}
+
+behavior FactorialBehavior {
+	requires Lifecycle, Behaviors
+	uses Lifecycle, Behaviors
+	
+	var upto : Long = 5l 
+	
+	on BehaviorInitialize {
+		this.upto  = new Long(16) 
+		println("Received Calculate for " + this.upto)   
+		wake(new Factorial => [ number = 0l ; value = 1l ])		
+	}
+	
+	on Factorial [ occurrence.number < upto ] {
+		wake(new Factorial => [ number = increment(occurrence.number) ; value = occurrence.value * (increment(occurrence.number)) ])
+	}
+	
+	on Factorial [ occurrence.number == upto ] {  
+		println("Factorial of " + upto + " is " + occurrence.value)
+		
+		killMe
+	}
+	
+	def increment(nb: Long) : Long {
+		return nb+1
+	}
+}
+
+
+agent BehaviorPlayer {
+	
+	uses Behaviors
+	
+	var myFactorialBehavior : FactorialBehavior
+
+	  
+	on Initialize {
+		
+		myFactorialBehavior = new FactorialBehavior(this)
+		this.registerBehavior(myFactorialBehavior);
+		wake(new BehaviorInitialize)
+	}
+	
+	on Destroy {
+		unregisterBehavior(myFactorialBehavior);
+	} 
+	
+
+}
+
+
+
+
+

@@ -32,8 +32,7 @@ agent FactorialAgent {
 	}
 
 	on Factorial [ occurrence.number == upto ] {  
-		println("Fatorial of " + upto + " is " + occurrence.value)
-		
+		println("Factorial of " + upto + " is " + occurrence.value)
 		killMe
 	}
 }

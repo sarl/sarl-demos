@@ -7,6 +7,7 @@ import io.sarl.lang.core.AgentContext
 import io.sarl.util.Scopes
 import java.util.UUID
 
+
 agent PongAgent {
 	
 	uses ExternalContextAccess, Logging
@@ -14,6 +15,9 @@ agent PongAgent {
 	var context : AgentContext
 
 	on Initialize {
+		
+		
+		
 		var cID = occurrence.parameters.get(0) as UUID
 		var sID = occurrence.parameters.get(1) as UUID
 		join(cID, sID)

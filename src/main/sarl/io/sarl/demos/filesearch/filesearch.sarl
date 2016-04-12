@@ -65,8 +65,11 @@ agent SearchCommanderAgent {
 				]
 			
 				task.cancel
+			} else {
+				println("Waiting FileSearch");
 			}
 		]
+		emit(new Search=>[fileMatch=cExt;date=new Date()])
 		println("SearchCommander initialized, waiting search results")
 	}
 	
