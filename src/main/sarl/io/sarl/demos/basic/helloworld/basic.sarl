@@ -10,18 +10,15 @@ import io.sarl.core.Logging
 /*
  * A "Hello World" Agent.
  */
-agent HelloAgent{
-	
+agent HelloAgent {
 	uses Lifecycle, Schedules, Logging
-	
+
 	/* Print "Hello World" when spawned and wait 2 seconds are kill itself */
 	on Initialize {
 		println("Hello World!")
-		in(2000)[
-			killMe
-		]
-	} 
-	
+		in(2000) [killMe]
+	}
+
 	/* Print "Goodbye World" before dying */
 	on Destroy {
 		println("Goodbye World!")
