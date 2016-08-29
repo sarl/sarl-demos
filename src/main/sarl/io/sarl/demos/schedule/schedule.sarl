@@ -31,14 +31,14 @@ agent ScheduleAgent {
 		in(20.seconds)[ wake(new Die)]
 		
 		//Named task 
-		task("say-hi").in(1.seconds)[println('HelloWorld')]
+		task("say-hi").in(1.seconds)[info('HelloWorld')]
 		
 		//Named task can be retrieved later for be modified if necessary.		
-		task("say-hi2").in(4.seconds)[println('HelloWorld that should never show')].unless[hideText]
+		task("say-hi2").in(4.seconds)[info('HelloWorld that should never show')].unless[hideText]
 		
 		
 		//You can compose schedules
-		in(10.seconds)[every(1.seconds)[println("Started after "+this.secs)]]
+		in(10.seconds)[every(1.seconds)[info("Started after "+this.secs)]]
 
 	}
 	
@@ -50,11 +50,11 @@ agent ScheduleAgent {
 	}
 	
 	def secondsFromStart{
-		 println("Seconds from Initialize "+secs.get)
+		 info("Seconds from Initialize "+secs.get)
 	}
 	
 	on Die {
-		println("Killing Agent");
+		info("Killing Agent");
 		killMe
 	}
 	

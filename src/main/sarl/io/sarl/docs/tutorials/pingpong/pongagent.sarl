@@ -9,8 +9,8 @@ agent PongAgent {
 	uses DefaultContextInteractions, Logging
 	
 	on Ping {
-		println("Receiving Ping #" + occurrence.index)
-		println("Sending Pong #" + occurrence.index)
+		info("Receiving Ping #" + occurrence.index)
+		info("Sending Pong #" + occurrence.index)
 		emit(
 			new Pong( occurrence.index ),
 			Scopes.addresses( occurrence.source )

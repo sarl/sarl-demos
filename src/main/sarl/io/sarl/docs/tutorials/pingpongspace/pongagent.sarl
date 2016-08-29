@@ -13,21 +13,21 @@ agent PongAgent {
 	
 	uses DefaultContextInteractions, Behaviors, Logging
 	
-	var space : OpenEventSpace
+	var comspace : OpenEventSpace
 
 	on Initialize {
-		space = defaultContext.getOrCreateSpaceWithSpec(
+		comspace = defaultContext.getOrCreateSpaceWithSpec(
 			typeof(OpenEventSpaceSpecification),
 			occurrence.parameters.get(0) as UUID)
-		space.register(asEventListener())
+		comspace.register(asEventListener())
 	}
 	
 	on Ping {
-		println("Receiving Ping #" + occurrence.index)
-		println("Sending Pong #" + occurrence.index)
+		info("Receiving Ping #" + occurrence.index)
+		info("Sending Pong #" + occurrence.index)
 		var evt = new Pong( occurrence.index )
-		evt.source = space.getAddress(getID)
-		space.emit(
+		evt.source = comspace.getAddress(getID)
+		comspace.emit(
 			evt,
 			Scopes.addresses( occurrence.source )
 		)

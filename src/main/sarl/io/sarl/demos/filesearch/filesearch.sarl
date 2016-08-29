@@ -48,39 +48,39 @@ agent SearchCommanderAgent {
 		}
 		val cExt = ext?.toString
 		
-		println("Waiting for FileSearch Agent")
+		info("Waiting for FileSearch Agent")
 		val task = task("waiting_for_partner")
 		task.every(1000) [
 			if (getDefaultContext().defaultSpace.participants.size > 1) {
-				println("Sending Search")
+				info("Sending Search")
 				emit(new Search=>[fileMatch=cExt;date=new Date()])
 				every(5000) [
 					val searcherNb = getDefaultContext().defaultSpace.participants.size;
 					if (searcherNb == 1) {
-						println("I'm alone, all others died")
+						info("I'm alone, all others died")
 						killMe						
 					} else if(searcherNb == 1) {
-						println("Only 2 holons remains, me and the first search agent")
+						info("Only 2 holons remains, me and the first search agent")
 					} else {
-						println("Still "+(searcherNb-1)+" holons currently searching...")
+						info("Still "+(searcherNb-1)+" holons currently searching...")
 					}
 				]
 			
 				task.cancel
 			} else {
-				println("Waiting FileSearch");
+				info("Waiting FileSearch");
 			}
 		]
 		emit(new Search=>[fileMatch=cExt;date=new Date()])
-		println("SearchCommander initialized, waiting search results")
+		info("SearchCommander initialized, waiting search results")
 	}
 	
 	on FoundFile{
-		println(format("[receiver = %s, source=%s] Matching File Found [path=%s]",ID, occurrence.source.UUID,occurrence.file))		
+		info(format("[receiver = %s, source=%s] Matching File Found [path=%s]",ID, occurrence.source.UUID,occurrence.file))		
 	}
 	
 	on Destroy {
-		println("Commander I'm about to die, bye :-)")
+		info("Commander I'm about to die, bye :-)")
 	}
 }
 
@@ -107,7 +107,7 @@ agent FileSearchAgent {
 		myPath = occurrence.parameters.get(0) as String
 		//wake(new Search =>[minSize=new Integer(occurrence.parameters.get(1) as String)])
 		stayAlive = Boolean.parseBoolean(occurrence.parameters.get(1) as String);
-		println("FileSearch Launched in "+myPath)
+		info("FileSearch Launched in "+myPath)
 	}
 	
 	on Search{
@@ -115,7 +115,7 @@ agent FileSearchAgent {
 		val fMatch = occurrence.fileMatch
 		cmdAddr = occurrence.source
 		
-		println(format("[ID=%s - parent %s] Searching in %s file matching %s created before %s", ID, defaultContext.ID,myPath,fMatch,maxDate.toString))
+		info(format("[ID=%s - parent %s] Searching in %s file matching %s created before %s", ID, defaultContext.ID,myPath,fMatch,maxDate.toString))
 		
 		
 		val dir = new File(myPath)
@@ -147,18 +147,18 @@ agent FileSearchAgent {
 	}
 	
 	on FoundFile{
-		println(format("[receiver = %s, source=%s] Matching File Found [path=%s]",ID, occurrence.source.UUID,occurrence.file))	
+		info(format("[receiver = %s, source=%s] Matching File Found [path=%s]",ID, occurrence.source.UUID,occurrence.file))	
 		emit(occurrence, Scopes.addresses(cmdAddr));	
 		
 	}
 	
 	on Stop{
-		println(format("[ID=%s] Request to stop received", ID, occurrence.source.UUID))
+		info(format("[ID=%s] Request to stop received", ID, occurrence.source.UUID))
 		killMe
 	}
 	
 	on Destroy {
-		println("I'm about to die, bye :-)")
+		info("I'm about to die, bye :-)")
 	}
 	
 	def isInternal(e:Event) : boolean {
@@ -171,31 +171,31 @@ agent FileSearchAgent {
 	
 	
 	on ContextJoined {
-		println("ContextJoined, contextID:"+occurrence.holonContextID+" SpaceID: "+occurrence.defaultSpaceID)
+		info("ContextJoined, contextID:"+occurrence.holonContextID+" SpaceID: "+occurrence.defaultSpaceID)
 	}
 	
 	on ContextLeft {
-		println("ContextLeft, contextID:"+occurrence.holonContextID)
+		info("ContextLeft, contextID:"+occurrence.holonContextID)
 	}
 	
 	on MemberJoined {
-		println("MemberJoined, agentID:"+occurrence.agentID)
+		info("MemberJoined, agentID:"+occurrence.agentID)
 	}
 	
 	on MemberLeft {
-		println("MemberLeft, agentID:"+occurrence.agentID)		
+		info("MemberLeft, agentID:"+occurrence.agentID)		
 	}
 	
 	on AgentSpawned {
-		println("AgentSpawned, agentID:"+occurrence.agentID+" AgentType: "+occurrence.agentType)		
+		info("AgentSpawned, agentID:"+occurrence.agentID+" AgentType: "+occurrence.agentType)		
 	}
 	
 	on AgentKilled {
-		println("AgentKilled, agentID:"+occurrence.agentID)	
+		info("AgentKilled, agentID:"+occurrence.agentID)	
 	}
 	
 	on Destroy {
-		println("Destroy")	
+		info("Destroy")	
 	}
 	
 }

@@ -24,25 +24,25 @@ agent CounterAgent {
  
 	on Initialize {
 		loggingName = "COUNTER"
-		println("Starting")
+		info("Starting")
 		task("discovery").every(1000) [ 
 			emit(new Hello)
 		]
 	}
 
 	on Hello [ occurrence.source != defaultAddress && !started ] {
-		println("Found another agent => " + occurrence.source)
-		println("I'm " + defaultAddress)
+		info("Found another agent => " + occurrence.source)
+		info("I'm " + defaultAddress)
 		started = true
 		task("discovery").cancel
-		println("Starting to count")
+		info("Starting to count")
 		wake(new Count) 
 	}
 
 	on Count {
-		println("count => " + count.get) 
+		info("count => " + count.get) 
 		if(count.get == 3) {
-			println("Killing") 
+			info("Killing") 
 			emit(new Die) 
 			killMe
 		} else {
@@ -61,16 +61,16 @@ agent SecondAgent {
 	
 	on Initialize {
 		loggingName = "PARTNER"
-		println("Starting")
+		info("Starting")
 	}
 
 	on Hello [ occurrence.source != defaultAddress ] {
-		println("Say hello!")
+		info("Say hello!")
 		emit(new Hello) 
 	}
 
 	on Die {
-		println("Killing")
+		info("Killing")
 		killMe
 	}
 

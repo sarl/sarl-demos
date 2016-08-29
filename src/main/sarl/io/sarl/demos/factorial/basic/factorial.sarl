@@ -19,10 +19,10 @@ agent FactorialAgent {
 	on Initialize {
 		if (occurrence.parameters.length > 0) {
 			this.upto  = new Long(occurrence.parameters.get(0) as String) 
-			println("Received Calculate for " + this.upto)   
+			info("Received Calculate for " + this.upto)   
 			wake(new Factorial => [ number = 0l ; value = 1l ])
 		} else {
-			println("Bad parameter settings, you must specify an integer value to compute the corresponding factorial")
+			info("Bad parameter settings, you must specify an integer value to compute the corresponding factorial")
 			killMe
 		}
 	} 
@@ -32,7 +32,7 @@ agent FactorialAgent {
 	}
 
 	on Factorial [ occurrence.number == upto ] {  
-		println("Factorial of " + upto + " is " + occurrence.value)
+		info("Factorial of " + upto + " is " + occurrence.value)
 		killMe
 	}
 }

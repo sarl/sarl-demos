@@ -14,10 +14,10 @@ agent CountDownAgent {
 	val counter = new AtomicInteger(5)
 
 	on Initialize {
-		println("Hello World!")
-		every(1000) [println("Wake up!")]
+		info("Hello World!")
+		every(1000) [info("Wake up!")]
 //		every(2000) [var v = counter.decrementAndGet ;
-//		println("Counter=" + v)
+//		info("Counter=" + v)
 //		if(v <= 0) {
 //			killMe
 //		}]
@@ -26,7 +26,7 @@ agent CountDownAgent {
 	}
 
 	on Destroy {
-		println("Goodbye World!")
+		info("Goodbye World!")
 	}
 
 }

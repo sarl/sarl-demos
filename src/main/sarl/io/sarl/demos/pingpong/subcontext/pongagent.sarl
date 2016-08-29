@@ -25,8 +25,8 @@ agent PongAgent {
 	}
 	
 	on Ping {
-		println("Receiving Ping #" + occurrence.index)
-		println("Sending Pong #" + occurrence.index)
+		info("Receiving Ping #" + occurrence.index)
+		info("Sending Pong #" + occurrence.index)
 		var evt = new Pong( occurrence.index )
 		evt.source = context.defaultSpace.getAddress(getID)
 		context.defaultSpace.emit(

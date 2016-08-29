@@ -4,6 +4,7 @@ import io.sarl.core.Behaviors
 import io.sarl.core.Destroy
 import io.sarl.core.Initialize
 import io.sarl.core.Lifecycle
+import io.sarl.core.Logging
 
 event Factorial {
 	var number : Long
@@ -12,13 +13,13 @@ event Factorial {
 event BehaviorInitialize {}
 
 behavior FactorialBehavior {
-	uses Lifecycle, Behaviors
+	uses Lifecycle, Behaviors, Logging
 	
 	var upto : Long = 5l 
 	
 	on BehaviorInitialize {
 		this.upto  = new Long(16) 
-		println("Received Calculate for " + this.upto)   
+		info("Received Calculate for " + this.upto)   
 		wake(new Factorial => [ number = 0l ; value = 1l ])		
 	}
 	
@@ -26,8 +27,8 @@ behavior FactorialBehavior {
 		wake(new Factorial => [ number = increment(occurrence.number) ; value = occurrence.value * (increment(occurrence.number)) ])
 	}
 	
-	on Factorial [ occurrence.number == upto ] {  
-		println("Factorial of " + upto + " is " + occurrence.value)
+	on Factorial [occurrence.number == upto] {
+		info("Factorial of " + upto + " is " + occurrence.value)
 		
 		killMe
 	}
@@ -48,7 +49,7 @@ agent BehaviorPlayer {
 	on Initialize {
 		
 		myFactorialBehavior = new FactorialBehavior(this)
-		this.registerBehavior(myFactorialBehavior);
+		registerBehavior(myFactorialBehavior);
 		wake(new BehaviorInitialize)
 	}
 	

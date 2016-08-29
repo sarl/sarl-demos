@@ -19,7 +19,7 @@ agent HolarchyManager {
 	}
 	
 	on HolarchyDestroyed {
-		println("Holarchy destroyed. Waiting awhile to ensure that all pending context destruction is processed.")
+		info("Holarchy destroyed. Waiting awhile to ensure that all pending context destruction is processed.")
 		in(5000) [
 			killMe
 		]
@@ -51,20 +51,20 @@ agent Holon{
  		if (isRoot || count > 0) {
 			count = count - 1
 			for(i : 1..childCount) {
-				println("Create the child #"+i+" at level "+count)
+				info("Create the child #"+i+" at level "+count)
 				spawnInContext(Holon, innerContext, #[count])
 			}
 			every(1000) [
 				if (innerContext.defaultSpace.participants.size == 1) {
-					println("No more child: I'm killing myself.")
+					info("No more child: I'm killing myself.")
 					killMe
 				}
 			]
 		}
 		else {
-			println("As leaf: Waiting awhile before commiting a suicide.")
+			info("As leaf: Waiting awhile before commiting a suicide.")
 			in(10000) [
-				println("As leaf: I'm killing myself.")
+				info("As leaf: I'm killing myself.")
 				killMe
 			]
 		}

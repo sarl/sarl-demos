@@ -24,7 +24,7 @@ agent Ticker {
 	}
 	
 	def doCount{
-		println("Counting : "+ secs.incrementAndGet)
+		info("Counting : "+ secs.incrementAndGet)
 		emit(new Count => [count = secs.get])
 	}
 	

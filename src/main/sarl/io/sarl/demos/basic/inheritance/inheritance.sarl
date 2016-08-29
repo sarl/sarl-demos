@@ -19,22 +19,22 @@ agent AbstractAgent {
 	var i : int = 0;
 
 	on Initialize {
-		println("1: Hello World in the super agent!")
+		info("1: Hello World in the super agent!")
 	}
 
 
 	on Initialize[i<0] {
-		println("This message must not be displayed")
+		info("This message must not be displayed")
 		i++
 	}
 	
 	on Initialize[i>=0] {
-		println("2:[i>=0]Parent: This message should be displayed")
+		info("2:[i>=0]Parent: This message should be displayed")
 		i--
 	}
 
 	def sayGoodBye {
-		println("Parent: Goodbye World!")
+		info("Parent: Goodbye World!")
 	}
 	
 	on Destroy {
@@ -52,7 +52,7 @@ agent HelloChildAgent extends AbstractAgent{
 	
 	/* Print "Hello World" when spawned and wait 2 seconds before kill itself */
 	on Initialize {
-		println("5: Hello World in the child agent!")
+		info("5: Hello World in the child agent!")
 
 		in(200)[killMe]
 		//killMe
@@ -60,17 +60,17 @@ agent HelloChildAgent extends AbstractAgent{
 	} 
 	
 	on Initialize {
-		println("4: Child: Discouraged method to have two Initialize behavior within the same agent but it works like a charm. Even if you killed an agent within one of its Initialize Behaviors, all of them will be executed prior to anything")
+		info("4: Child: Discouraged method to have two Initialize behavior within the same agent but it works like a charm. Even if you killed an agent within one of its Initialize Behaviors, all of them will be executed prior to anything")
 	
 	}
 	
 	on Initialize[i>=0] {
-		println("3: [i>=0] Child: This message should be displayed too.")
+		info("3: [i>=0] Child: This message should be displayed too.")
 	}
 	
 
 	override sayGoodBye {
-		println("Child: Goodbye World from the child!")
+		info("Child: Goodbye World from the child!")
 	}
 	
 	/* Print "Goodbye World" before dying */
@@ -80,27 +80,27 @@ agent HelloChildAgent extends AbstractAgent{
 	
 	
 	on ContextJoined {
-		println("ContextJoined, contextID:"+occurrence.holonContextID+" SpaceID: "+occurrence.defaultSpaceID)
+		info("ContextJoined, contextID:"+occurrence.holonContextID+" SpaceID: "+occurrence.defaultSpaceID)
 	}
 	
 	on ContextLeft {
-		println("ContextLeft, contextID:"+occurrence.holonContextID)
+		info("ContextLeft, contextID:"+occurrence.holonContextID)
 	}
 	
 	on MemberJoined {
-		println("MemberJoined, agentID:"+occurrence.agentID)
+		info("MemberJoined, agentID:"+occurrence.agentID)
 	}
 	
 	on MemberLeft {
-		println("MemberLeft, agentID:"+occurrence.agentID)		
+		info("MemberLeft, agentID:"+occurrence.agentID)		
 	}
 	
 	on AgentSpawned {
-		println("AgentSpawned, agentID:"+occurrence.agentID+" AgentType: "+occurrence.agentType)		
+		info("AgentSpawned, agentID:"+occurrence.agentID+" AgentType: "+occurrence.agentType)		
 	}
 	
 	on AgentKilled {
-		println("AgentKilled, agentID:"+occurrence.agentID)	
+		info("AgentKilled, agentID:"+occurrence.agentID)	
 	}
 	
 }

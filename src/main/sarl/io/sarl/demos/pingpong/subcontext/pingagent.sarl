@@ -20,12 +20,12 @@ agent PingAgent {
 		join(cID, sID)
 		context = getContext(cID)
 
-		println("Waiting for Pong Agent")
+		info("Waiting for Pong Agent")
 		val task = task("waiting_for_partner")
 		task.every(1000) [
 			if (context.defaultSpace.participants.size > 1) {
-				println("Pong Agent detected.")
-				println("Sending Ping #0")
+				info("Pong Agent detected.")
+				info("Sending Ping #0")
 				var evt = new Ping(0)
 				evt.source = context.defaultSpace.getAddress(getID())
 				context.defaultSpace.emit( evt )
@@ -35,8 +35,8 @@ agent PingAgent {
 	}
 
 	on Pong {
-		println("Receiving Pong #" + occurrence.index)
-		println("Sending Ping #" + (occurrence.index + 1))
+		info("Receiving Pong #" + occurrence.index)
+		info("Sending Ping #" + (occurrence.index + 1))
 		var evt = new Ping( occurrence.index + 1 )
 		evt.source = context.defaultSpace.getAddress(getID())
 		context.defaultSpace.emit(

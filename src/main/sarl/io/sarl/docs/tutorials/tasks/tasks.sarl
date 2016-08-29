@@ -76,7 +76,7 @@ agent TaskManager {
 			dependencies += defaultSpace.getAddress(id)
 		}
 		taskParameters = (occurrence.parameters.get(1) as Collection<?>).toArray
-		setSkill(TaskExecution, new JavaCompilation)
+		setSkill(new JavaCompilation, TaskExecution)
 	}
 	
 	on TaskExecutionRequest [state == TaskManagerState::NO_REQUEST] {

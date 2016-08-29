@@ -16,40 +16,40 @@ agent Bidder {
 	var myLastBid : float
 
 	on Initialize {
-		println("Bidder created")
+		info("Bidder created")
 		maxPrice = random.nextFloat() * 1000f + 100f
-		println(maxPrice)
+		info(maxPrice)
 	}
 
 	on Price {
 		if(occurrence.price == myLastBid) {
-			println("I do not bet, I am the winner with :" + myLastBid)
+			info("I do not bet, I am the winner with :" + myLastBid)
 		} else {
 			if(occurrence.price < maxPrice) {
-				println("Receiving the price: " + occurrence.price)
+				info("Receiving the price: " + occurrence.price)
 				var priceIncrease = random.nextFloat() * 50f
 				if(priceIncrease > 0) {
 					var newPrice = occurrence.price + priceIncrease
 
-					println("My new price is: " + newPrice)
+					info("My new price is: " + newPrice)
 					if(newPrice <= maxPrice) {
-						println("Send my bid: " + newPrice)
+						info("Send my bid: " + newPrice)
 						var superScope = Scopes.addresses(defaultSpace.getAddress(defaultContext.ID))
 						emit(new Bid(newPrice), superScope)
 						myLastBid = newPrice
 					} else {
-						println(" I give up, this is beyond my resources : " + myLastBid)
+						info(" I give up, this is beyond my resources : " + myLastBid)
 					}
 				}
 			}
 			else {
-				println("I dropped to " + myLastBid)
+				info("I dropped to " + myLastBid)
 			}
 		}
 	}
 
 	on StopAuction {
-		println("Auctioneer wants to kill me")
+		info("Auctioneer wants to kill me")
 		killMe
 	}
 
