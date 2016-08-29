@@ -14,12 +14,12 @@
 	<!-- ======================================= -->
 
 	<properties>
-		<year>2015</year>
+		<year>2016</year>
 		<copyrighters>the original authors and authors</copyrighters>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<compiler.level>1.8</compiler.level>
-		<sarl.version>0.3.1</sarl.version>
-		<janus.version.range>2.0.3.1</janus.version.range>
+		<sarl.version>0.4.0-SNAPSHOT</sarl.version>
+		<janus.version.range>2.0.4.0-SNAPSHOT</janus.version.range>
 	</properties>
 
 	<!-- ======================================= -->
@@ -44,17 +44,17 @@
 	<!-- ======================================= -->
 
 	<dependencies>
-		<dependency>
+<!--		<dependency>
 			<groupId>io.janusproject</groupId>
 			<artifactId>io.janusproject.kernel</artifactId>
 			<version>${janus.version.range}</version>
+		</dependency> -->
+		<dependency>
+			<groupId>io.sarl.maven</groupId>
+			<artifactId>io.sarl.maven.sdk</artifactId>
+			<version>${sarl.version}</version>
+			<type>pom</type>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>io.sarl.maven</groupId> -->
-<!-- 			<artifactId>io.sarl.maven.sdk</artifactId> -->
-<!-- 			<version>${sarl.version}</version> -->
-<!-- 			<type>pom</type> -->
-<!-- 		</dependency> -->
 	</dependencies>
 
 	<!-- ======================================= -->
