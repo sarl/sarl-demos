@@ -59,6 +59,8 @@ agent SearchCommanderAgent {
 					if (searcherNb == 1) {
 						println("I'm alone, all others died")
 						killMe						
+					} else if(searcherNb == 1) {
+						println("Only 2 holons remains, me and the first search agent")
 					} else {
 						println("Still "+(searcherNb-1)+" holons currently searching...")
 					}

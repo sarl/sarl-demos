@@ -1,21 +1,44 @@
 package io.sarl.demos.basic.inheritance
 
+import io.sarl.core.AgentKilled
+import io.sarl.core.AgentSpawned
+import io.sarl.core.ContextJoined
+import io.sarl.core.ContextLeft
 import io.sarl.core.Destroy
 import io.sarl.core.Initialize
-import io.sarl.core.Logging
-import io.sarl.core.Schedules
 import io.sarl.core.Lifecycle
+import io.sarl.core.Logging
+import io.sarl.core.MemberJoined
+import io.sarl.core.MemberLeft
+import io.sarl.core.Schedules
 
 agent AbstractAgent {
 
 	uses Logging
 
+	var i : int = 0;
+
 	on Initialize {
-		println("Hello World in the super agent!")
+		println("1: Hello World in the super agent!")
+	}
+
+
+	on Initialize[i<0] {
+		println("This message must not be displayed")
+		i++
+	}
+	
+	on Initialize[i>=0] {
+		println("2:[i>=0]Parent: This message should be displayed")
+		i--
 	}
 
 	def sayGoodBye {
-		println("Goodbye World!")
+		println("Parent: Goodbye World!")
+	}
+	
+	on Destroy {
+		sayGoodBye
 	}
 
 }
@@ -29,19 +52,55 @@ agent HelloChildAgent extends AbstractAgent{
 	
 	/* Print "Hello World" when spawned and wait 2 seconds before kill itself */
 	on Initialize {
-		println("Hello World in the child agent!")
-		in(2000)[
-			println("Kill myself")
-			killMe
-		]
+		println("5: Hello World in the child agent!")
+
+		in(200)[killMe]
+		//killMe
+
 	} 
+	
+	on Initialize {
+		println("4: Child: Discouraged method to have two Initialize behavior within the same agent but it works like a charm. Even if you killed an agent within one of its Initialize Behaviors, all of them will be executed prior to anything")
+	
+	}
+	
+	on Initialize[i>=0] {
+		println("3: [i>=0] Child: This message should be displayed too.")
+	}
+	
 
 	override sayGoodBye {
-		super.sayGoodBye()
+		println("Child: Goodbye World from the child!")
 	}
 	
 	/* Print "Goodbye World" before dying */
 	on Destroy {
 		sayGoodBye
 	}
+	
+	
+	on ContextJoined {
+		println("ContextJoined, contextID:"+occurrence.holonContextID+" SpaceID: "+occurrence.defaultSpaceID)
+	}
+	
+	on ContextLeft {
+		println("ContextLeft, contextID:"+occurrence.holonContextID)
+	}
+	
+	on MemberJoined {
+		println("MemberJoined, agentID:"+occurrence.agentID)
+	}
+	
+	on MemberLeft {
+		println("MemberLeft, agentID:"+occurrence.agentID)		
+	}
+	
+	on AgentSpawned {
+		println("AgentSpawned, agentID:"+occurrence.agentID+" AgentType: "+occurrence.agentType)		
+	}
+	
+	on AgentKilled {
+		println("AgentKilled, agentID:"+occurrence.agentID)	
+	}
+	
 }

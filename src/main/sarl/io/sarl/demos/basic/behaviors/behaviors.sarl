@@ -12,7 +12,6 @@ event Factorial {
 event BehaviorInitialize {}
 
 behavior FactorialBehavior {
-	requires Lifecycle, Behaviors
 	uses Lifecycle, Behaviors
 	
 	var upto : Long = 5l 
