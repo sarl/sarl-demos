@@ -1,6 +1,6 @@
 
-SARL Demos
-==============
+DEPRECATED SARL Demos (DO NOT USE)
+==================================
 
 This is the set of demos for SARL.
 
