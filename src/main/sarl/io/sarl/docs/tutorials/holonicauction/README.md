@@ -1,5 +1,5 @@
-Tutorial: Holonic Auction
-=========================
+DEPRECATED Tutorial: Holonic Auction (Do not use)
+=================================================
 
 ## Principle of the Demo
 
