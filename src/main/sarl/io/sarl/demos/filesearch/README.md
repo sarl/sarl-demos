@@ -1,5 +1,5 @@
-Demo: Distributed File Search
-=============================
+DEPRECATED Demo: Distributed File Search (Do not use)
+=====================================================
 
 ## Principle of the Demo
 
