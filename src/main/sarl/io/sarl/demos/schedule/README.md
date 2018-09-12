@@ -1,5 +1,5 @@
-Demo: Task Scheduling
-=====================
+DEPRECATED Demo: Task Scheduling (Do not use)
+=============================================
 
 ## Principle of the Demo
 
