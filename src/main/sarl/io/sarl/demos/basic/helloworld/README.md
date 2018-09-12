@@ -1,5 +1,5 @@
-Demo: Hello World
-=================
+DEPRECATED Demo: Hello World (Do not use)
+=========================================
 
 ## Principle of the Demo
 
