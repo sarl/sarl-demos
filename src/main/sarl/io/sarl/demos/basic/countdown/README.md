@@ -1,5 +1,5 @@
-Demo: Count Down
-================
+DEPRECATED Demo: Count Down (Do not use)
+========================================
 
 ## Principle of the Demo
 
