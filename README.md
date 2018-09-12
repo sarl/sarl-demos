@@ -1,4 +1,15 @@
 
+WHY ARE THE DEMOS DEPRECATED?
+=============================
+
+Since SARL 0.7.2, the demo code is included into the SARL Development Environment.
+The content of this repository is provided for history. The code inside this repository should not be no more compatible with the SARL version 0.7.2 or higher.
+
+For obtaining recent demo code:
+* Menu "File" > New > Examples
+* Select the example within the wizard.
+* Close the wizard.
+
 DEPRECATED SARL Demos (DO NOT USE)
 ==================================
 
