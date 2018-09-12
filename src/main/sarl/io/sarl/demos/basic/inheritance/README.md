@@ -1,5 +1,5 @@
-Demo: Inheritance Example
-=========================
+DEPRECATED Demo: Inheritance Example (Do not use)
+=================================================
 
 ## Principle of the Demo
 
