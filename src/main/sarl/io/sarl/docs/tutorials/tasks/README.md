@@ -1,5 +1,5 @@
-Tutorial: Dependent Tasks
-=========================
+DEPRECATED Tutorial: Dependent Tasks (Do not use)
+=================================================
 
 ## Principle of the Demo
 
