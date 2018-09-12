@@ -1,5 +1,5 @@
-Tutorial: Agent Communication in Subspace
-=========================================
+DEPRECATED Tutorial: Agent Communication in Subspace (Do not use)
+=================================================================
 
 ## Principle of the Demo
 
