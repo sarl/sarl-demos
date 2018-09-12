@@ -1,5 +1,5 @@
-Demo: Holarchy Example
-======================
+DEPRECATED Demo: Holarchy Example (Do not use)
+==============================================
 
 ## Principle of the Demo
 
