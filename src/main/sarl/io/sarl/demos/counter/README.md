@@ -1,5 +1,5 @@
-Demo: Counter Agent
-===================
+DEPRECATED Demo: Counter Agent (Do not use)
+===========================================
 
 ## Principle of the Demo
 
