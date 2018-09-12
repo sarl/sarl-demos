@@ -1,5 +1,5 @@
-Demo: Web Sniffer
-=================
+DEPRECATED Demo: Web Sniffer (Do not use)
+=========================================
 
 ## Principle of the Demo
 
