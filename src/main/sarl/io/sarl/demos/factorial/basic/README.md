@@ -1,5 +1,5 @@
-Demo: Basic Factorial
-=====================
+DEPRECATED Demo: Basic Factorial (Do not use)
+=============================================
 
 ## Principle of the Demo
 
