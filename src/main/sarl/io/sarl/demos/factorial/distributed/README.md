@@ -1,5 +1,5 @@
-Demo: Distributed Factorial
-===========================
+DEPRECATED Demo: Distributed Factorial (Do not use)
+===================================================
 
 ## Principle of the Demo
 
